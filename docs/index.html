@@ -14,42 +14,42 @@ layout: default
     <div id="table-container"></div>
 
     <script>
-    d3.csv("social_media_engagement1.csv").then(function(data) {
-    // Select the container
-    const container = d3.select("#table-container");
-
-    // Create table
-    const table = container.append("table")
-                           .style("border-collapse", "collapse")
-                           .style("border", "1px solid black");
-
-    // Create header row
-    const columns = data.columns;
-    const thead = table.append("thead");
-    const tbody = table.append("tbody");
-
-    thead.append("tr")
-      .selectAll("th")
-      .data(columns)
-      .enter()
-      .append("th")
-      .text(d => d)
-      .style("border", "1px solid black")
-      .style("padding", "5px")
-      .style("background-color", "#f2f2f2");
-
-    // Add data rows
-    data.forEach(row => {
-      const tr = tbody.append("tr");
-      columns.forEach(col => {
-        tr.append("td")
-          .text(row[col])
+      d3.csv("social_media_engagement1.csv").then(function(data) {
+        // Select the container
+        const container = d3.select("#table-container");
+    
+        // Create table
+        const table = container.append("table")
+                               .style("border-collapse", "collapse")
+                               .style("border", "1px solid black");
+    
+        // Create header row
+        const columns = data.columns;
+        const thead = table.append("thead");
+        const tbody = table.append("tbody");
+    
+        thead.append("tr")
+          .selectAll("th")
+          .data(columns)
+          .enter()
+          .append("th")
+          .text(d => d)
           .style("border", "1px solid black")
-          .style("padding", "5px");
+          .style("padding", "5px")
+          .style("background-color", "#f2f2f2");
+    
+        // Add data rows
+        data.forEach(row => {
+          const tr = tbody.append("tr");
+          columns.forEach(col => {
+            tr.append("td")
+              .text(row[col])
+              .style("border", "1px solid black")
+              .style("padding", "5px");
+        });
       });
     });
-  });
-</script>
+  </script>
 
   </body>
 </html>
