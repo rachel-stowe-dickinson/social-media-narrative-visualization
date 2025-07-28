@@ -19,9 +19,7 @@ layout: default
         const container = d3.select("#table-container");
     
         // Create table
-        const table = container.append("table")
-                               .style("border-collapse", "collapse")
-                               .style("border", "1px solid black");
+        const table = container.append("table");
     
         // Create header row
         const columns = data.columns;
@@ -33,19 +31,14 @@ layout: default
           .data(columns)
           .enter()
           .append("th")
-          .text(d => d)
-          .style("border", "1px solid black")
-          .style("padding", "5px")
-          .style("background-color", "#f2f2f2");
+          .text(d => d);
     
         // Add data rows
         data.forEach(row => {
           const tr = tbody.append("tr");
           columns.forEach(col => {
             tr.append("td")
-              .text(row[col])
-              .style("border", "1px solid black")
-              .style("padding", "5px");
+              .text(row[col]);
         });
       });
     });
