@@ -109,17 +109,23 @@ layout: default
           .attr("dy", "0.15em");
 
         tooltip = d3.select("#tooltip");
-        g.selectAll("rect")
-          .data(avgData)
-          .enter()
+        bars = g.selectAll("rect")
+          .data(avgData);
+        bars.enter()
           .append("rect")
           .attr("x", 0)
           .attr("y", function(d) { return y(d.post_type); })
           .attr("width", function(d) {return x(d.avg);})
           .attr("height", y.bandwidth())
           .attr("fill", color)
+          .merge(bars)
+          .transition()
+          .duration(600)
+          .attr("width", function(d) { return x(d.avg);})
+          .attr("y", function(d) {return y(d.post_type);})
           .on("mouseover", function(d){
-            tooltip.style("opacity",1)
+            tooltip.transition()
+              .style("opacity",1)
               .html(d.post_type+"<br>"+"Average "+attribute+": "+d.avg.toFixed(0));
           })
           .on("mousemove", function(){
@@ -127,8 +133,10 @@ layout: default
               .style("top",(d3.event.pageY)+"px")
           })
           .on("mouseout", function(){
-            tooltip.style("opacity", 0);
+            tooltip.transition()
+              .style("opacity", 0);
           });
+          bars.exit().remove();
       }
       
       // Load CSV data
