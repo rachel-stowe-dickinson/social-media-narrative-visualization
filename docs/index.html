@@ -64,6 +64,8 @@ layout: default
       <svg id="chart3" width="100%"></svg>
     </div>
     <h2>Average Engagement by Post Tone</h2>
+    <h4>Select a Post Type:</h4>
+    <select id="typeSelection"></select>
     <div class="sceneheader">
       <div><h4>Average Like Count</h4></div>
       <div><h4>Average Comment Count</h4></div>
@@ -193,32 +195,47 @@ layout: default
           d.shares = +d.shares;
         });
 
-      // Platform selection
-      var select = d3.select("#platformSelection");
-      select.selectAll("option")
-        .data(platforms)
-        .enter()
-        .append("option")
-        .text(function(d) {return d;})
-        .attr("value", function(d) {return d;});
+        // Function for updating all bar charts
+        function updateCharts(platform){
+          var filteredData = data.filter(function(d) {return d.platform == platform});
+          barChart("chart1", filteredData, "likes", "post_type", post_types, platform);
+          barChart("chart2", filteredData, "comments", "post_type", post_types, platform);
+          barChart("chart3", filteredData, "shares", "post_type", post_types, platform);
+          barChart("chart4", filteredData, "likes", "sentiment_score", post_tones, platform);
+          barChart("chart5", filteredData, "comments", "sentiment_score", post_tones, platform);
+          barChart("chart6", filteredData, "shares", "sentiment_score", post_tones, platform);
+        }
 
-      // Function for updating charts
-      function updateCharts(platform){
-        var filteredData = data.filter(function(d) {return d.platform == platform});
-        barChart("chart1", filteredData, "likes", "post_type", post_types, platform);
-        barChart("chart2", filteredData, "comments", "post_type", post_types, platform);
-        barChart("chart3", filteredData, "shares", "post_type", post_types, platform);
-        barChart("chart4", filteredData, "likes", "sentiment_score", post_tones, platform);
-        barChart("chart5", filteredData, "comments", "sentiment_score", post_tones, platform);
-        barChart("chart6", filteredData, "shares", "sentiment_score", post_tones, platform);
-      }
+        // Function for updating second row of bar charts with post type filter
+        function typeFilterUpdate(platform){
 
-      // Initially choose Facebook as platform
-      updateCharts("Facebook");
+        }
 
-      // Update charts with dropdown selection
-      select.on("change", function(){updateCharts(this.value);});
+        // Platform selection dropdown
+        var select = d3.select("#platformSelection");
+        select.selectAll("option")
+          .data(platforms)
+          .enter()
+          .append("option")
+          .text(function(d) {return d;})
+          .attr("value", function(d) {return d;});
 
+        // Update all charts with platform selection (initial selection: Facebook)
+        updateCharts("Facebook");
+        select.on("change", function(){updateCharts(this.value);});
+
+        // Type selection dropdown
+        var select_type = d3.select("#typeSelection");
+        select_type.selectAll("option")
+          .data(["", ...post_types])
+          .enter()
+          .append("option")
+          .text(function(d) {return d;})
+          .attr("value", function(d) {return d;});
+
+        // Update second row with type selection (initial selection: All)
+        select_type.on("change", function(){typeFilterUpdate(this.value);});
+        
       });
 
       
