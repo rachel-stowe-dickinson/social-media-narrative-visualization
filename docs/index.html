@@ -16,6 +16,10 @@ layout: default
     <script>
       
       // Populate chart 1
+      d3.select("#chart1")
+        .attr("width", d3.select("body").attr("width"))
+        .attr("height", d3.select("body").attr("height"));
+
       var chart1 = d3.select("#chart1"),
         margin = 50,
         width = chart1.attr("width") - 2*margin,
