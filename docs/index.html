@@ -17,12 +17,11 @@ layout: default
       
       // Populate chart 1
       var chart1 = d3.select("#chart1"),
-        margin = 100,
+        margin = 50,
         width = chart1.attr("width") - 2*margin,
         height = chart1.attr("height") - 2*margin;
 
-      var g = chart1.append("g")
-                     .attr("transform", "translate(" + margin + "," + margin + ")");
+      var g = chart1.append("g");
 
       d3.csv("social_media_engagement1.csv", function(data) {
         var x = d3.scaleBand().domain(data.map(function(d) {return d.platform;})).range([0,width]);
