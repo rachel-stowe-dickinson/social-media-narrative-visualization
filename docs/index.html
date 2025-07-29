@@ -84,7 +84,7 @@ layout: default
         }           
 
         var avgData = d3.nest()
-          .key(d => [yattr])
+          .key(d => d[yattr])
           .rollup(values => d3.mean(values, d => d[xattr]))
           .entries(data)
           .map(d => ({ yattr: d.key, avg: d.value }));
