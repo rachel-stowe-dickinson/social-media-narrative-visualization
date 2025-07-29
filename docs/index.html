@@ -11,14 +11,13 @@ layout: default
   <body>
     <h1>Social Media Narrative Visualization</h1>
     <h2>Social Media Engagement</h2>
-    <svg id="chart1" width="600" height="600"></svg>
+    <svg id="chart1" height="600"></svg>
 
     <script>
       
       // Populate chart 1
       d3.select("#chart1")
-        .attr("width", d3.select("body").attr("width"))
-        .attr("height", d3.select("body").attr("height"));
+        .attr("width", d3.select("section").attr("width"));
 
       var chart1 = d3.select("#chart1"),
         margin = 50,
