@@ -64,6 +64,7 @@ layout: default
     </div>
     <script>
       // Color for specific platform
+      var platforms = ["Facebook", "Instagram", "Twitter"]
       var platformColor = d3.scaleOrdinal().domain(platforms).range(["blue", "orange", "green"]);
 
       // Function for creating a bar chart
@@ -120,7 +121,6 @@ layout: default
         });
 
         // Platform selection
-        var platforms = ["Facebook", "Instagram", "Twitter"]
         var select = d3.select("#platformSelection");
         select.selectAll("option")
           .data(platforms)
