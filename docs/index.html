@@ -76,7 +76,7 @@ layout: default
       <svg id="chart5" width="100%"></svg>
       <svg id="chart6" width="100%"></svg>
     </div>
-    <div id="tooltip" style="opacity: 0; padding: 5px; background: #eee; position:absolute; z-index:1000; pointer-events: none;"></div>
+    <div id="tooltip" style="opacity: 0; padding: 5px; background:#eee; position:absolute; z-index:1000; pointer-events: none;"></div>
     <script>
       // Define tooltip
       const tooltip = d3.select("#tooltip");
@@ -85,7 +85,7 @@ layout: default
       const platforms = ["Facebook", "Instagram", "Twitter"]
       const post_types = ["image", "carousel", "video", "poll", "text"]
       const post_tones = ["positive", "neutral", "negative"]
-      var platformColor = d3.scaleOrdinal().domain(platforms).range(["blue", "orange", "green"]);
+      var platformColor = d3.scaleOrdinal().domain(platforms).range(["royalblue", "orangered", "green"]);
 
       // Function for creating a bar chart
       function barChart(chartId, data, xattr, yattr, yattr2, ydomain, platform){
