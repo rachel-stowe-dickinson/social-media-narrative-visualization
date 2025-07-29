@@ -111,7 +111,7 @@ layout: default
         });
         avgData = ydomain.map(val => ({
           [yattr]: val,
-          avg: avgMap.get(val) != null ? avgMap.get(val) : 0
+          avg: avgMap[val] != null ? avgMap[val] : 0
         }));
 
         var y = d3.scaleBand()
