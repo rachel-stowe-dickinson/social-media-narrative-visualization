@@ -121,7 +121,7 @@ layout: default
           .attr("dx", "-0.8em")
           .attr("dy", "0.15em");
   
-        var tooltip = d3.select("#tooltip");
+        const tooltip = d3.select("#tooltip");
         bars = g.selectAll("rect")
           .data(avgData, d => d[yattr]);
         bars.enter()
