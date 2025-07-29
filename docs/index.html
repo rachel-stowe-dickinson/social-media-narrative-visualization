@@ -43,15 +43,16 @@ layout: default
       
       // Populate chart 1
       var chart1 = d3.select("#chart1"),
-        w_margin = 30
+        l_margin = 30,
+        r_margin = 10,
         h_margin = 20,
-        width = chart1.node().getBoundingClientRect().width - 2*w_margin,
+        width = chart1.node().getBoundingClientRect().width - (l_margin+r_margin),
         height = chart1.node().getBoundingClientRect().width*5/6 - 2*h_margin;
 
       chart1.attr("height", height + 2*h_margin)
 
       var g = chart1.append("g")
-                    .attr("transform", "translate(" + w_margin + "," + h_margin + ")");
+                    .attr("transform", "translate(" + l_margin + "," + h_margin + ")");
 
       d3.csv("social_media_engagement1.csv", function(rawData) {
         rawData.forEach(d => {
