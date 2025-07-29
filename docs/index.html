@@ -88,7 +88,7 @@ layout: default
 
         var y = d3.scaleBand()
           .domain(avgData.map(function(d) {return d.post_type;}))
-          .range([height,0])
+          .range([0,height])
           .padding(0.2);
 
         var x = d3.scaleLinear()
@@ -105,9 +105,9 @@ layout: default
           .data(avgData)
           .enter()
           .append("rect")
-          .attr("x", function(d) { return x(d.avg); })
+          .attr("x", 0)
           .attr("y", function(d) { return y(d.post_type); })
-          .attr("width", function(d) {return width - x(d.avg)})
+          .attr("width", function(d) {return x(d.avg);})
           .attr("height", y.bandwidth())
           .attr("fill", color);
       }
