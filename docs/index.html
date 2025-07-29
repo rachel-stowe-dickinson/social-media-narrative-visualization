@@ -63,7 +63,7 @@ layout: default
       <svg id="chart2" width="100%"></svg>
       <svg id="chart3" width="100%"></svg>
     </div>
-    <div id="tooltip" style="opacity: 0; padding: 5px; background: #eee;"></div>
+    <div id="tooltip" style="opacity: 0; padding: 5px; background: #eee; position:absolute;"></div>
     <script>
       // Color for specific platform
       var platforms = ["Facebook", "Instagram", "Twitter"]
@@ -120,7 +120,7 @@ layout: default
           .attr("fill", color)
           .on("mouseover", function(d){
             tooltip.style("opacity",1)
-              .html(d.post_type+"<br>"+"Average "+attribute+": "+d.avg);
+              .html(d.post_type+"<br>"+"Average "+attribute+": "+d.avg.toFixed(0));
           })
           .on("mousemove", function(){
             tooltip.style("left",(d3.event.pageX)+"px")
