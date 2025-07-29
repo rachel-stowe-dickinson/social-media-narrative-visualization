@@ -88,7 +88,7 @@ layout: default
       var platformColor = d3.scaleOrdinal().domain(platforms).range(["blue", "orange", "green"]);
 
       // Function for creating a bar chart
-      function barChart(chartId, data, xattr, yattr, ydomain, platform){
+      function barChart(chartId, data, xattr, yattr, yattr2, ydomain, platform){
         var chart = d3.select("#"+chartId);
         var color = platformColor(platform);
         var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
@@ -162,7 +162,7 @@ layout: default
             tooltip.transition()
               .duration(200)
               .style("opacity",1);
-            tooltip.html("<strong>"+platform+": "+d[yattr]+" post</strong><br>Average number of "+xattr+": "+d.avg.toFixed(0));
+            tooltip.html("<strong>"+platform+": "+d[yattr]+ yattr2 + " post</strong><br>Average number of "+xattr+": "+d.avg.toFixed(0));
           })
           .on("mousemove", function(event){
             tooltip.style("left",(d3.event.pageX + 10)+"px")
@@ -198,17 +198,17 @@ layout: default
         // Function for updating all bar charts
         function updateCharts(platform){
           var filteredData = data.filter(function(d) {return d.platform == platform});
-          barChart("chart1", filteredData, "likes", "post_type", post_types, platform);
-          barChart("chart2", filteredData, "comments", "post_type", post_types, platform);
-          barChart("chart3", filteredData, "shares", "post_type", post_types, platform);
-          barChart("chart4", filteredData, "likes", "sentiment_score", post_tones, platform);
-          barChart("chart5", filteredData, "comments", "sentiment_score", post_tones, platform);
-          barChart("chart6", filteredData, "shares", "sentiment_score", post_tones, platform);
+          barChart("chart1", filteredData, "likes", "post_type", "", post_types, platform);
+          barChart("chart2", filteredData, "comments", "post_type", "", post_types, platform);
+          barChart("chart3", filteredData, "shares", "post_type", "", post_types, platform);
+          barChart("chart4", filteredData, "likes", "sentiment_score", "", post_tones, platform);
+          barChart("chart5", filteredData, "comments", "sentiment_score", "", post_tones, platform);
+          barChart("chart6", filteredData, "shares", "sentiment_score", "", post_tones, platform);
         }
 
         // Function for updating second row of bar charts with post type filter
         function typeFilterUpdate(type){
-
+          var platform = d3.select("#platformSelection").node().value;
         }
 
         // Platform selection dropdown
