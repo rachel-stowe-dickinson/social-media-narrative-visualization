@@ -100,7 +100,12 @@ layout: default
           .call(d3.axisLeft(y));
         g.append("g")
           .attr("transform", "translate(0,"+height+")")
-          .call(d3.axisBottom(x));
+          .call(d3.axisBottom(x))
+          .selectAll("text")
+          .attr("transform", "rotate(-45)")
+          .style("text-anchor", "end")
+          .attr("dx", "-0.8em")
+          .attr("dy", "0.15em");
 
         g.selectAll("rect")
           .data(avgData)
@@ -133,7 +138,7 @@ layout: default
         // Function for updating charts
         function updateCharts(platform){
           var filteredData = data.filter(function(d) {return d.platform == platform});
-          var ymax = d3.max(filteredData, d => Math.max(d.likes, d.comments, d.shares));
+          var ymax = d3.max(filteredData, d => Math.max(d3.mean(d.likes), d3.mean(d.comments), d3.mean(d.shares)));
           barChart("chart1", filteredData, "likes", platformColor(platform), ymax);
           barChart("chart2", filteredData, "comments", platformColor(platform), ymax);
           barChart("chart3", filteredData, "shares", platformColor(platform), ymax);
