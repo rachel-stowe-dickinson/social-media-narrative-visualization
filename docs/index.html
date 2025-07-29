@@ -68,7 +68,7 @@ layout: default
       var platformColor = d3.scaleOrdinal().domain(platforms).range(["blue", "orange", "green"]);
 
       // Function for creating a bar chart
-      function barChart(chartId, data, attribute, color){
+      function barChart(chartId, data, attribute, color, ymax){
         var chart = d3.select("#"+chartId);
         chart.selectAll("*").remove();
 
@@ -92,7 +92,8 @@ layout: default
           .padding(0.2);
 
         var y = d3.scaleLinear()
-          .domain([0,d3.max(avgData, function(d) {return d.avg})])
+          .domain([0,ymax])
+          .nice()
           .range([height,0]);
 
         g.append("g")
@@ -132,9 +133,10 @@ layout: default
         // Function for updating charts
         function updateCharts(platform){
           var filteredData = data.filter(function(d) {return d.platform == platform});
-          barChart("chart1", filteredData, "likes", platformColor(platform));
-          barChart("chart2", filteredData, "comments", platformColor(platform));
-          barChart("chart3", filteredData, "shares", platformColor(platform));
+          var ymax = d3.max(filteredData, d => Math.max(d.likes, d.comments, d.shares));
+          barChart("chart1", filteredData, "likes", platformColor(platform), ymax);
+          barChart("chart2", filteredData, "comments", platformColor(platform), ymax);
+          barChart("chart3", filteredData, "shares", platformColor(platform), ymax);
         }
 
         // Initially choose Facebook as platform
