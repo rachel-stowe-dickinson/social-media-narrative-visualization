@@ -105,6 +105,11 @@ layout: default
           .rollup(values => d3.mean(values, d => d[xattr]))
           .entries(data)
           .map(d => ({ [yattr]: d.key, avg: d.value }));
+          var avgMap = d3.map(avgData, d => d[yattr]);
+          avgData = ydomain.map(val => ({
+            [yattr]: val,
+            avg: avgMap.get(val) != null ? avgMap.get(val) : 0
+          }));
 
         var y = d3.scaleBand()
           .domain(ydomain)
