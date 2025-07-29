@@ -99,16 +99,16 @@ layout: default
           .call(d3.axisLeft(y));
         g.append("g")
           .attr("transform", "translate(0,"+height+")")
-          .call(d3.axisBottom(x));
+          .call(d3.axisBottom(x).ticks(5));
 
         g.selectAll("rect")
           .data(avgData)
           .enter()
           .append("rect")
-          .attr("x", function(d) { return x(d.post_type); })
-          .attr("y", function(d) { return y(d.avg); })
-          .attr("width", x.bandwidth())
-          .attr("height", function(d) {return height - y(d.avg); })
+          .attr("x", function(d) { return x(d.avg); })
+          .attr("y", function(d) { return y(d.post_type); })
+          .attr("width", function(d) {return width - x(d.avg)})
+          .attr("height", y.bandwidth())
           .attr("fill", color);
       }
       
