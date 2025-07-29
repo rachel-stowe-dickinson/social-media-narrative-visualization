@@ -22,7 +22,7 @@ layout: default
       .scene svg {
         flex: 1;
         max-width: 33%;
-        aspect-ratio: 3/2;
+        aspect-ratio: 4/3;
         border: 1px solid #ccc;
         background-color: white;
       }
@@ -45,7 +45,7 @@ layout: default
       var chart1 = d3.select("#chart1"),
         margin = 10,
         width = chart1.node().getBoundingClientRect().width - 2 * margin,
-        height = width*2/3 - 2*margin;
+        height = width*3/4 - 2*margin;
 
       chart1.attr("height", height)
 
@@ -63,7 +63,7 @@ layout: default
           .entries(rawData)
           .map(d => ({ platform: d.key, avgLikes: d.value }));
 
-        var x = d3.scaleBand().domain(data.map(function(d) {return d.platform;})).range([0,width]);
+        var x = d3.scaleBand().domain(data.map(function(d) {return d.platform;})).range([0,width]).padding(0.2);
         var y = d3.scaleLinear().domain([0,d3.max(data, function(d) {return d.avgLikes})]).range([height,0]);
 
         g.append("g")
