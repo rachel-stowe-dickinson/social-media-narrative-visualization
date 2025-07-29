@@ -226,7 +226,10 @@ layout: default
 
         // Update all charts with platform selection (initial selection: Facebook)
         updateCharts("Facebook");
-        select.on("change", function(){updateCharts(this.value);});
+        select.on("change", function(){
+          updateCharts(this.value);
+          d3.select("#typeSelection").property("value", "");
+        });
 
         // Type selection dropdown
         var select_type = d3.select("#typeSelection");
