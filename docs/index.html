@@ -70,7 +70,7 @@ layout: default
       var platformColor = d3.scaleOrdinal().domain(platforms).range(["blue", "orange", "green"]);
 
       // Function for creating a bar chart
-      function barChart(chartId, data, attribute, color, update){
+      function barChart(chartId, data, attribute, color){
         var chart = d3.select("#"+chartId);
         var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
         var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
@@ -78,7 +78,7 @@ layout: default
         chart.attr("height", height + (t_margin+b_margin));
 
         var g = chart.select("g");
-        if (!update){
+        if (g.empty()){
           g = chart.append("g")
             .attr("transform", "translate("+l_margin+","+t_margin+")");
         }           
@@ -148,12 +148,14 @@ layout: default
           })
           .transition()
           .duration(600)
-          .attr("width", function(d) {return x(d.avg)});
+          .attr("width", function(d) {return x(d.avg)})
+          .attr("fill", color);
         
         bars.transition()
           .duration(600)
           .attr("y", function(d) {return y(d.post_type)})
-          .attr("width", function(d) {return x(d.avg)});
+          .attr("width", function(d) {return x(d.avg)})
+          .attr("fill", color);
 
         bars.exit().remove();
       }
@@ -166,28 +168,28 @@ layout: default
           d.shares = +d.shares;
         });
 
-        // Platform selection
-        var select = d3.select("#platformSelection");
-        select.selectAll("option")
-          .data(platforms)
-          .enter()
-          .append("option")
-          .text(function(d) {return d;})
-          .attr("value", function(d) {return d;});
+      // Platform selection
+      var select = d3.select("#platformSelection");
+      select.selectAll("option")
+        .data(platforms)
+        .enter()
+        .append("option")
+        .text(function(d) {return d;})
+        .attr("value", function(d) {return d;});
 
-        // Function for updating charts
-        function updateCharts(platform, update){
-          var filteredData = data.filter(function(d) {return d.platform == platform});
-          barChart("chart1", filteredData, "likes", platformColor(platform), update);
-          barChart("chart2", filteredData, "comments", platformColor(platform), update);
-          barChart("chart3", filteredData, "shares", platformColor(platform), update);
-        }
+      // Function for updating charts
+      function updateCharts(platform){
+        var filteredData = data.filter(function(d) {return d.platform == platform});
+        barChart("chart1", filteredData, "likes", platformColor(platform));
+        barChart("chart2", filteredData, "comments", platformColor(platform));
+        barChart("chart3", filteredData, "shares", platformColor(platform));
+      }
 
-        // Initially choose Facebook as platform
-        updateCharts("Facebook", false);
+      // Initially choose Facebook as platform
+      updateCharts("Facebook");
 
-        // Update charts with dropdown selection
-        select.on("change", function(){updateCharts(this.value, true);});
+      // Update charts with dropdown selection
+      select.on("change", function(){updateCharts(this.value);});
 
       });
 
