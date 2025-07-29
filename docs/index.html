@@ -160,8 +160,8 @@ layout: default
           const day_abbr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
           yAxis.transition()
           .duration(600)
-          .call(d3.axisLeft(y))
-          .tickFormat(i => day_abbr[i]);
+          .call(d3.axisLeft(y)
+          .tickFormat(i => day_abbr[i]));
         }
 
         var xAxis = g.select(".xaxis");
