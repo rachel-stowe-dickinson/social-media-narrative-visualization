@@ -23,9 +23,19 @@ layout: default
 
       var g = chart1.append("g");
 
-      d3.csv("social_media_engagement1.csv", function(data) {
+      d3.csv("social_media_engagement1.csv", function(rawData) {
+        rawData.forEach(d => {
+          d.likes = +d.likes;
+        });
+
+        var data = d3.nest()
+          .key(d => d.platform)
+          .rollup(values => d3.mean(values, d => d.likes))
+          .entries(rawData)
+          .map(d => ({ platform: d.key, avgLikes: d.value }));
+
         var x = d3.scaleBand().domain(data.map(function(d) {return d.platform;})).range([0,width]);
-        var y = d3.scaleLinear().domain([0,d3.max(data, function(d) {return d.likes})]).range([height,0]);
+        var y = d3.scaleLinear().domain([0,d3.max(data, function(d) {return d.avgLikes})]).range([height,0]);
 
         g.append("g")
           .attr("transform", "translate(" + margin + "," + margin + ")")
@@ -40,7 +50,7 @@ layout: default
           .enter()
           .append("rect")
           .attr("x", function(d) { return x(d.platform); })
-          .attr("y", function(d) { return y(d.likes); })
+          .attr("y", function(d) { return y(d.avgLikes); })
           .attr("width", x.bandwidth())
           .attr("height", function(d) {return height - y(d.likes); });
       });
