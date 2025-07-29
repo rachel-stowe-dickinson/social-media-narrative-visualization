@@ -84,13 +84,13 @@ layout: default
         }           
 
         var avgData = d3.nest()
-          .key(d => d.yattr)
+          .key(d => [yattr])
           .rollup(values => d3.mean(values, d => d[xattr]))
           .entries(data)
           .map(d => ({ yattr: d.key, avg: d.value }));
 
         var y = d3.scaleBand()
-          .domain(avgData.map(function(d) {return d.yattr;}))
+          .domain(avgData.map(function(d) {return d[yattr];}))
           .range([0,height])
           .padding(0.2);
 
@@ -123,11 +123,11 @@ layout: default
   
         tooltip = d3.select("#tooltip");
         bars = g.selectAll("rect")
-          .data(avgData, d => d.yattr);
+          .data(avgData, d => d[yattr]);
         bars.enter()
           .append("rect")
           .attr("x", 0)
-          .attr("y", function(d) { return y(d.yattr); })
+          .attr("y", function(d) { return y(d[yattr]); })
           .attr("height", y.bandwidth())
           .attr("width",0)
           .attr("fill", color)
@@ -135,7 +135,7 @@ layout: default
             tooltip.transition()
               .duration(200)
               .style("opacity",1);
-            tooltip.html(d.yattr+"<br>"+"Average "+xattr+": "+d.avg.toFixed(0));
+            tooltip.html(d[yattr]+"<br>"+"Average "+xattr+": "+d.avg.toFixed(0));
           })
           .on("mousemove", function(){
             tooltip.style("left",(d3.event.pageX)+"px")
@@ -153,7 +153,7 @@ layout: default
         
         bars.transition()
           .duration(600)
-          .attr("y", function(d) {return y(d.yattr)})
+          .attr("y", function(d) {return y(d[yattr])})
           .attr("width", function(d) {return x(d.avg)})
           .attr("fill", color);
 
