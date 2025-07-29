@@ -99,7 +99,7 @@ layout: default
           .call(d3.axisLeft(y));
         g.append("g")
           .attr("transform", "translate(0,"+height+")")
-          .call(d3.axisBottom(x))
+          .call(d3.axisBottom(x).ticks(5))
           .selectAll("text")
           .attr("transform", "rotate(-45)")
           .style("text-anchor", "end")
