@@ -70,10 +70,11 @@ layout: default
 
       // Colors for specific platform
       const platforms = ["Facebook", "Instagram", "Twitter"]
+      const post_types = ["image", "carousel", "video", "poll", "text"]
       var platformColor = d3.scaleOrdinal().domain(platforms).range(["blue", "orange", "green"]);
 
       // Function for creating a bar chart
-      function barChart(chartId, data, xattr, yattr, color){
+      function barChart(chartId, data, xattr, yattr, ydomain, color){
         var chart = d3.select("#"+chartId);
         var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
         var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
@@ -93,7 +94,7 @@ layout: default
           .map(d => ({ [yattr]: d.key, avg: d.value }));
 
         var y = d3.scaleBand()
-          .domain(avgData.map(function(d) {return d[yattr];}))
+          .domain(ydomain)
           .range([0,height])
           .padding(0.2);
 
@@ -182,9 +183,9 @@ layout: default
       // Function for updating charts
       function updateCharts(platform){
         var filteredData = data.filter(function(d) {return d.platform == platform});
-        barChart("chart1", filteredData, "likes", "post_type", platformColor(platform));
-        barChart("chart2", filteredData, "comments", "post_type", platformColor(platform));
-        barChart("chart3", filteredData, "shares", "post_type", platformColor(platform));
+        barChart("chart1", filteredData, "likes", "post_type", post_types, platformColor(platform));
+        barChart("chart2", filteredData, "comments", "post_type", post_types, platformColor(platform));
+        barChart("chart3", filteredData, "shares", "post_type", post_types, platformColor(platform));
       }
 
       // Initially choose Facebook as platform
