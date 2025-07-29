@@ -63,7 +63,7 @@ layout: default
       <svg id="chart2" width="100%"></svg>
       <svg id="chart3" width="100%"></svg>
     </div>
-    <div name="tooltip" opacity=0></div>
+    <div id="tooltip" style="opacity: 0; padding: 5px; background: #eee;"></div>
     <script>
       // Color for specific platform
       var platforms = ["Facebook", "Instagram", "Twitter"]
@@ -108,6 +108,7 @@ layout: default
           .attr("dx", "-0.8em")
           .attr("dy", "0.15em");
 
+        tooltip = d3.select("#tooltip");
         g.selectAll("rect")
           .data(avgData)
           .enter()
@@ -117,11 +118,16 @@ layout: default
           .attr("width", function(d) {return x(d.avg);})
           .attr("height", y.bandwidth())
           .attr("fill", color)
-          .on("mouseover", function(d,i){
+          .on("mouseover", function(d){
             tooltip.style("opacity",1)
-              .style("left",(d3.event.pageX)+"px")
+              .html(d.post_type+"<br>"+"Average "+attribute+": "+d.avg);
+          })
+          .on("mousemove", function(){
+            tooltip.style("left",(d3.event.pageX)+"px")
               .style("top",(d3.event.pageY)+"px")
-              .html("Item #"+i+" is "+d);
+          })
+          .on("mouseout", function(){
+            tooltip.style("opacity", 0);
           });
       }
       
