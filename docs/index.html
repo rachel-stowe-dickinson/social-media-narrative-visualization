@@ -45,7 +45,7 @@ layout: default
       var chart1 = d3.select("#chart1"),
         margin = 10,
         width = chart1.node().getBoundingClientRect().width - 2 * margin,
-        height = width * 2/3;
+        height = width*2/3 - 2*margin;
 
       chart1.attr("height", height)
 
