@@ -154,14 +154,20 @@ layout: default
         }
         if (yattr != "post_day") {
           yAxis.transition()
-          .duration(600)
-          .call(d3.axisLeft(y));
+            .duration(600)
+            .call(d3.axisLeft(y));
         } else {
-          const day_abbr = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+          const day_abbr = {"Monday":"Mon", 
+                            "Tuesday":"Tue", 
+                            "Wednesday":"Wed", 
+                            "Thursday":"Thu", 
+                            "Friday":"Fri", 
+                            "Saturday":"Sat",
+                            "Sunday":"Sun"};
           yAxis.transition()
-          .duration(600)
-          .call(d3.axisLeft(y)
-          .tickFormat(i => day_abbr[i]));
+            .duration(600)
+            .call(d3.axisLeft(y)
+            .tickFormat(d => day_abbr[d] || d));
         }
 
         var xAxis = g.select(".xaxis");
