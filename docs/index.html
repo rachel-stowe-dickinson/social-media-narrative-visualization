@@ -210,9 +210,9 @@ layout: default
         function typeFilterUpdate(type){
           var platform = d3.select("#platformSelection").node().value;
           var filteredData = data.filter(function(d) {return d.platform == platform && d.post_type == type});
-          barChart("chart4", filteredData, "likes", "sentiment_score", type, post_tones, platform);
-          barChart("chart5", filteredData, "comments", "sentiment_score", type, post_tones, platform);
-          barChart("chart6", filteredData, "shares", "sentiment_score", type, post_tones, platform);
+          barChart("chart4", filteredData, "likes", "sentiment_score", " "+type, post_tones, platform);
+          barChart("chart5", filteredData, "comments", "sentiment_score", " "+type, post_tones, platform);
+          barChart("chart6", filteredData, "shares", "sentiment_score", " "+type, post_tones, platform);
         }
 
         // Platform selection dropdown
