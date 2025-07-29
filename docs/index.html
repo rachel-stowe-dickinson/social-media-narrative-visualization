@@ -10,6 +10,11 @@ layout: default
   </head>
   <body>
     <style>
+      #platformSelection{
+        display:block;
+        margin: 20px auto;
+        font-size: 16px;
+      }
       .sceneheader {
         display: flex;
         justify-content: space-between;
@@ -53,68 +58,94 @@ layout: default
       <div><h4>Average Share Count</h4></div>
     </div>
     <div class="scene">
-      <svg id="chart1" width="100%"></svg>
+      <svg id="chart" width="100%"></svg>
       <svg id="chart2" width="100%"></svg>
       <svg id="chart3" width="100%"></svg>
     </div>
     <script>
-      // Platform selection
-      var platforms = ["Facebook", "Instagram", "Twitter"]
-      d3.select("#platformSelection")
-        .selectAll("option")
-        .data(platforms)
-        .enter()
-        .append("option")
-        .text(function(d) {return d;})
-        .attr("value", function(d) {return d;})
-
       // Color for specific platform
       var platformColor = d3.scaleOrdinal().domain(platforms).range(["blue", "orange", "green"]);
 
-      // Populate chart 1
-      var chart1 = d3.select("#chart1"),
-        l_margin = 50,
-        r_margin = 20,
-        h_margin = 20,
-        width = chart1.node().getBoundingClientRect().width - (l_margin+r_margin),
-        height = chart1.node().getBoundingClientRect().width*5/6 - 2*h_margin;
+      // Function for creating a bar chart
+      function barChart(chartId, data, attribute, color){
+        var chart = d3.select("#"+chartId);
+        chart.selectAll("*").remove();
 
-      chart1.attr("height", height + 2*h_margin)
+        var l_margin = 50, r_margin = 20, h_margin = 2;
+        var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
+        var height = chart.node().getBoundingClientRect().width*5/6 - 2*h_margin;
+        chart.attr("height", height + 2*h_margin);
 
-      var g = chart1.append("g")
-                    .attr("transform", "translate(" + l_margin + "," + h_margin + ")");
+        var g = chart.append("g")
+                      .attr("transform", "translate("+l_margin+","+h_margin+")");
 
-      d3.csv("social_media_engagement1.csv", function(rawData) {
-        rawData.forEach(d => {
-          d.likes = +d.likes;
-        });
-
-        var data = d3.nest()
+        var avgData = d3.nest()
           .key(d => d.post_type)
-          .rollup(values => d3.mean(values, d => d.likes))
-          .entries(rawData)
-          .map(d => ({ post_type: d.key, avgLikes: d.value }));
+          .rollup(values => d3.mean(values, d => d[attribute]))
+          .entries(data)
+          .map(d => ({ post_type: d.key, avg: d.value }));
 
-        var x = d3.scaleBand().domain(data.map(function(d) {return d.post_type;})).range([0,width]).padding(0.2);
-        var y = d3.scaleLinear().domain([0,d3.max(data, function(d) {return d.avgLikes})]).range([height,0]);
+        var x = d3.scaleBand()
+          .domain(avgData.map(function(d) {return d.post_type;}))
+          .range([0,width])
+          .padding(0.2);
+
+        var y = d3.scaleLinear()
+          .domain([0,d3.max(avgData, function(d) {return d.avg})])
+          .range([height,0]);
 
         g.append("g")
           .call(d3.axisLeft(y));
-
         g.append("g")
-          .attr("transform", "translate(0," + height + ")")
+          .attr("transform", "translate(0,"+height+")")
           .call(d3.axisBottom(x));
 
         g.selectAll("rect")
-          .data(data)
+          .data(avgData)
           .enter()
           .append("rect")
           .attr("x", function(d) { return x(d.post_type); })
-          .attr("y", function(d) { return y(d.avgLikes); })
+          .attr("y", function(d) { return y(d.avg); })
           .attr("width", x.bandwidth())
-          .attr("height", function(d) {return height - y(d.avgLikes); })
-          .attr("fill", function(d) {return platformColor(d.platform)});
+          .attr("height", function(d) {return height - y(d.avg); })
+          .attr("fill", color);
+      }
+      
+      // Load CSV data
+      d3.csv("social_media_engagement1.csv", function(data) {
+        data.forEach(d => {
+          d.likes = +d.likes;
+          d.comments = +d.comments;
+          d.shares = +d.shares;
+        });
+
+        // Platform selection
+        var platforms = ["Facebook", "Instagram", "Twitter"]
+        var select = d3.select("#platformSelection");
+        select.selectAll("option")
+          .data(platforms)
+          .enter()
+          .append("option")
+          .text(function(d) {return d;})
+          .attr("value", function(d) {return d;});
+
+        // Function for updating charts
+        function updateCharts(platform){
+          var filteredData = data.filter(function(d) {return d.platform == platform});
+          barChart("chart1", filteredData, "likes", platformColor(platform));
+          barChart("chart2", filteredData, "comments", platformColor(platform));
+          barChart("chart3", filteredData, "shares", platformColor(platform));
+        }
+
+        // Initially choose Facebook as platform
+        updateCharts("Facebook");
+
+        // Update charts with dropdown selection
+        select.on("change", function(){updateCharts(this.value);});
+
       });
+
+      
       
     </script>
 
