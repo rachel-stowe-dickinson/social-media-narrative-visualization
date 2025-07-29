@@ -72,8 +72,6 @@ layout: default
       // Function for creating a bar chart
       function barChart(chartId, data, attribute, color, update){
         var chart = d3.select("#"+chartId);
-        chart.selectAll("*").remove();
-
         var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
         var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
         var height = chart.node().getBoundingClientRect().width*5/6 - (t_margin+b_margin);
@@ -99,7 +97,7 @@ layout: default
 
         g.append("g")
           .call(d3.axisLeft(y));
-        if (update == false) {
+        if (!update) {
           g.append("g")
             .attr("class", "xaxis")
             .attr("transform", "translate(0,"+height+")")
@@ -123,10 +121,14 @@ layout: default
           .append("rect")
           .attr("x", 0)
           .attr("y", function(d) { return y(d.post_type); })
-          .attr("width", function(d) {return x(d.avg);})
           .attr("height", y.bandwidth())
           .attr("fill", color)
-          .on("mouseover", function(d){
+          .merge(bars);
+        bars.transition()
+          .duration(600)
+          .attr("y", function(d) { return y(d.post_type); })
+          .attr("width", function(d) { return x(d.avg);});
+        bars.on("mouseover", function(d){
             tooltip.transition()
               .duration(200)
               .style("opacity",1);
@@ -140,14 +142,7 @@ layout: default
             tooltip.transition()
               .duration()
               .style("opacity", 0);
-          })
-          .transition()
-          .duration(600)
-          .attr("width", function(d) { return x(d.avg);});
-        bars.transition()
-          .duration(600)
-          .attr("y", function(d) { return y(d.post_type);})
-          .attr("width", function(d) { return x(d.avg);});
+          });
         bars.exit().remove();
       }
       
