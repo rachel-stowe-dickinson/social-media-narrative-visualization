@@ -11,34 +11,33 @@ layout: default
   <body>
     <h1>Social Media Narrative Visualization</h1>
     <h2>Social Media Engagement</h2>
-    <svg id="chart1"></div>
+    <svg id="chart1" width="600" height="600"></svg>
 
     <script>
-      d3.csv("social_media_engagement1.csv").then(function(data) {
-        
-        // Populate chart 1
-        var x = d3.scaleBand().domain(["Facebook", "Instagram", "Twitter"]).range([0,200]);
-        var y = d3.scaleLinear().domain([200,0]);
-        d3.select("#chart1")
-        .attr("width", 200)
-        .attr("height", 200)
-        .append("g")
-        .call(d3.axisBottom(x))
-        .call(d3.axisLeft(y));
-          // .selectAll("rect")
-          // .data(columns)
-          // .enter()
-          // .append("th")
-          // .text(d => d);
-    
-        // Add data rows
-        // data.forEach(row => {
-        //   const tr = tbody.append("tr");
-        //   columns.forEach(col => {
-        //     tr.append("td")
-        //       .text(row[col]);
-      });
-  </script>
+      
+      // Populate chart 1
+      var chart1 = d3.select("#chart1"),
+        margin = 50,
+        width = chart1.attr("width") - 2*margin,
+        height = chart1.attr("height") - 2*margin;
+
+      var g = chart1.append("g")
+                    .attr("transform", "translate(" + margin + "," + margin + ")");
+
+      d3.csv("social_media_engagement1.csv", function(data) {
+        var x = d3.scaleBand().domain(data.map(function(d) {return d.platform;})).range([0,width]);
+        var y = d3.scaleLinear().domain([0,d3.max(data, function(d) {return d.likes})]).range([height,0]);
+
+        g.append("g")
+          .attr("transform", "translate(" + margin + "," + margin + ")")
+          .call(d3.axisLeft(y));
+
+        g.append("g")
+          .attr("transform", "translate(" + margin + "," + (height + margin) + ")")
+          .call(d3.axisBottom(x));
+      }
+      
+    </script>
 
   </body>
 </html>
