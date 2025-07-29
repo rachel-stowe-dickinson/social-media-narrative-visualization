@@ -18,8 +18,8 @@ layout: default
       // Populate chart 1
       var chart1 = d3.select("#chart1"),
         margin = 50,
-        width = chart1.attr("width") - 2*margin,
-        height = chart1.attr("height") - 2*margin;
+        width = chart1.attr("width") + 2*margin,
+        height = chart1.attr("height") + 2*margin;
 
       var g = chart1.append("g")
                      .attr("transform", "translate(" + margin + "," + margin + ")");
