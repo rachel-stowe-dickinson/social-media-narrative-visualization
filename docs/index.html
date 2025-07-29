@@ -35,7 +35,8 @@ layout: default
           .attr("transform", "translate(" + margin + "," + (height + margin) + ")")
           .call(d3.axisBottom(x));
 
-        d3.selectAll(".bar")
+        d3.select("#chart1")
+          .selectAll("rect")
           .data(data)
           .enter()
           .append("rect")
