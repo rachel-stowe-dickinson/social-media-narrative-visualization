@@ -50,7 +50,7 @@ layout: default
     </style>
 
     <h1>Social Media Narrative Visualization</h1>
-    <h4>Select a platform:</h4>
+    <h4>Select a Platform:</h4>
     <select id="platformSelection"></select>
     <h2>Average Engagement by Post Type</h2>
     <div class="sceneheader">
@@ -63,6 +63,7 @@ layout: default
       <svg id="chart2" width="100%"></svg>
       <svg id="chart3" width="100%"></svg>
     </div>
+    <div name="tooltip" opacity=0></div>
     <script>
       // Color for specific platform
       var platforms = ["Facebook", "Instagram", "Twitter"]
@@ -115,7 +116,13 @@ layout: default
           .attr("y", function(d) { return y(d.post_type); })
           .attr("width", function(d) {return x(d.avg);})
           .attr("height", y.bandwidth())
-          .attr("fill", color);
+          .attr("fill", color)
+          .on("mouseover", function(d,i){
+            tooltip.style("opacity",1)
+              .style("left",(d3.event.pageX)+"px")
+              .style("top",(d3.event.pageY)+"px")
+              .html("Item #"+i+" is "+d);
+          });
       }
       
       // Load CSV data
