@@ -70,7 +70,7 @@ layout: default
       var platformColor = d3.scaleOrdinal().domain(platforms).range(["blue", "orange", "green"]);
 
       // Function for creating a bar chart
-      function barChart(chartId, data, attribute, color){
+      function barChart(chartId, data, xattr, yattr, color){
         var chart = d3.select("#"+chartId);
         var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
         var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
@@ -84,13 +84,13 @@ layout: default
         }           
 
         var avgData = d3.nest()
-          .key(d => d.post_type)
-          .rollup(values => d3.mean(values, d => d[attribute]))
+          .key(d => d.yattr)
+          .rollup(values => d3.mean(values, d => d[xattr]))
           .entries(data)
-          .map(d => ({ post_type: d.key, avg: d.value }));
+          .map(d => ({ yattr: d.key, avg: d.value }));
 
         var y = d3.scaleBand()
-          .domain(avgData.map(function(d) {return d.post_type;}))
+          .domain(avgData.map(function(d) {return d.yattr;}))
           .range([0,height])
           .padding(0.2);
 
@@ -123,11 +123,11 @@ layout: default
   
         tooltip = d3.select("#tooltip");
         bars = g.selectAll("rect")
-          .data(avgData, d => d.post_type);
+          .data(avgData, d => d.yattr);
         bars.enter()
           .append("rect")
           .attr("x", 0)
-          .attr("y", function(d) { return y(d.post_type); })
+          .attr("y", function(d) { return y(d.yattr); })
           .attr("height", y.bandwidth())
           .attr("width",0)
           .attr("fill", color)
@@ -135,7 +135,7 @@ layout: default
             tooltip.transition()
               .duration(200)
               .style("opacity",1);
-            tooltip.html(d.post_type+"<br>"+"Average "+attribute+": "+d.avg.toFixed(0));
+            tooltip.html(d.yattr+"<br>"+"Average "+xattr+": "+d.avg.toFixed(0));
           })
           .on("mousemove", function(){
             tooltip.style("left",(d3.event.pageX)+"px")
@@ -153,7 +153,7 @@ layout: default
         
         bars.transition()
           .duration(600)
-          .attr("y", function(d) {return y(d.post_type)})
+          .attr("y", function(d) {return y(d.yattr)})
           .attr("width", function(d) {return x(d.avg)})
           .attr("fill", color);
 
@@ -180,9 +180,9 @@ layout: default
       // Function for updating charts
       function updateCharts(platform){
         var filteredData = data.filter(function(d) {return d.platform == platform});
-        barChart("chart1", filteredData, "likes", platformColor(platform));
-        barChart("chart2", filteredData, "comments", platformColor(platform));
-        barChart("chart3", filteredData, "shares", platformColor(platform));
+        barChart("chart1", filteredData, "likes", "post_type", platformColor(platform));
+        barChart("chart2", filteredData, "comments", "post_type", platformColor(platform));
+        barChart("chart3", filteredData, "shares", "post_type", platformColor(platform));
       }
 
       // Initially choose Facebook as platform
