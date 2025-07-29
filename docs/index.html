@@ -82,6 +82,7 @@ layout: default
       // Colors for specific platform
       const platforms = ["Facebook", "Instagram", "Twitter"]
       const post_types = ["image", "carousel", "video", "poll", "text"]
+      const post_tones = ["positive", "neutral", "negative"]
       var platformColor = d3.scaleOrdinal().domain(platforms).range(["blue", "orange", "green"]);
 
       // Function for creating a bar chart
@@ -197,6 +198,9 @@ layout: default
         barChart("chart1", filteredData, "likes", "post_type", post_types, platformColor(platform));
         barChart("chart2", filteredData, "comments", "post_type", post_types, platformColor(platform));
         barChart("chart3", filteredData, "shares", "post_type", post_types, platformColor(platform));
+        barChart("chart4", filteredData, "likes", "sentiment_score", post_tones, platformColor(platform));
+        barChart("chart5", filteredData, "comments", "sentiment_score", post_tones, platformColor(platform));
+        barChart("chart6", filteredData, "shares", "sentiment_score", post_tones, platformColor(platform));
       }
 
       // Initially choose Facebook as platform
