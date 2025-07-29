@@ -10,6 +10,18 @@ layout: default
   </head>
   <body>
     <style>
+      .sceneheader {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      .sceneheader div {
+        flex: 1;
+        max-width: 33%;
+      }
       .scene {
         display: flex;
         justify-content: space-between;
@@ -18,7 +30,6 @@ layout: default
         padding: 10px;
         box-sizing: border-box;
       }
-    
       .scene svg {
         flex: 1;
         max-width: 33%;
@@ -26,7 +37,6 @@ layout: default
         border: 1px solid #ccc;
         background-color: white;
       }
-    
       body {
         margin: 0;
       }
@@ -34,6 +44,11 @@ layout: default
 
     <h1>Social Media Narrative Visualization</h1>
     <h2>Social Media Engagement</h2>
+    <div class="sceneheader">
+      <div><h4>"Average Likes by Post Type"</h4></div>
+      <div><h4>"Average Comments by Post Type"</h4></div>
+      <div><h4>"Average Shares by Post Type"</h4></div>
+    </div>
     <div class="scene">
       <svg id="chart1" width="100%"></svg>
       <svg id="chart2" width="100%"></svg>
