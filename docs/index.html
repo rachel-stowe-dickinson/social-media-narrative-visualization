@@ -22,7 +22,7 @@ layout: default
         height = chart1.attr("height") - 2*margin;
 
       var g = chart1.append("g")
-                    .attr("transform", "translate(" + margin + "," + margin + ")");
+                     .attr("transform", "translate(" + margin + "," + margin + ")");
 
       d3.csv("social_media_engagement1.csv", function(data) {
         var x = d3.scaleBand().domain(data.map(function(d) {return d.platform;})).range([0,width]);
@@ -35,7 +35,7 @@ layout: default
         g.append("g")
           .attr("transform", "translate(" + margin + "," + (height + margin) + ")")
           .call(d3.axisBottom(x));
-      }
+      });
       
     </script>
 
