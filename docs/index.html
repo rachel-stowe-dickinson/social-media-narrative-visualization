@@ -11,34 +11,32 @@ layout: default
   <body>
     <h1>Social Media Narrative Visualization</h1>
     <h2>Social Media Engagement</h2>
-    <div id="table-container"></div>
+    <svg id="chart1"></div>
 
     <script>
       d3.csv("social_media_engagement1.csv").then(function(data) {
-        // Select the container
-        const container = d3.select("#table-container");
-    
-        // Create table
-        const table = container.append("table");
-    
-        // Create header row
-        const columns = data.columns;
-        const thead = table.append("thead");
-        const tbody = table.append("tbody");
-    
-        thead.append("tr")
-          .selectAll("th")
-          .data(columns)
-          .enter()
-          .append("th")
-          .text(d => d);
+        
+        // Populate chart 1
+        var x = d3.scaleBand().domain(["Facebook", "Instagram", "Twitter"]).range([0,200]);
+        var y = d3.scaleLinear().domain([200,0]);
+        d3.select("#chart1")
+        .attr("width", 200)
+        .attr("height", 200)
+        .append("g")
+        .call(d3.axisBottom(x))
+        .call(d3.axisLeft(y));
+          // .selectAll("rect")
+          // .data(columns)
+          // .enter()
+          // .append("th")
+          // .text(d => d);
     
         // Add data rows
-        data.forEach(row => {
-          const tr = tbody.append("tr");
-          columns.forEach(col => {
-            tr.append("td")
-              .text(row[col]);
+        // data.forEach(row => {
+        //   const tr = tbody.append("tr");
+        //   columns.forEach(col => {
+        //     tr.append("td")
+        //       .text(row[col]);
         });
       });
     });
