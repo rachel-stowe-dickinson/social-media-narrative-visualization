@@ -43,7 +43,7 @@ layout: default
       
       // Populate chart 1
       var chart1 = d3.select("#chart1"),
-        margin = 50,
+        margin = chart1.node().getBoundingClientRect().width / 10,
         width = chart1.node().getBoundingClientRect().width - 2 * margin,
         height = width * 2/3;
 
