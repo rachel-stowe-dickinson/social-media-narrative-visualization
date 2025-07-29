@@ -90,12 +90,12 @@ layout: default
         });
 
         var data = d3.nest()
-          .key(d => d.platform)
+          .key(d => d.post_type)
           .rollup(values => d3.mean(values, d => d.likes))
           .entries(rawData)
-          .map(d => ({ platform: d.key, avgLikes: d.value }));
+          .map(d => ({ post_type: d.key, avgLikes: d.value }));
 
-        var x = d3.scaleBand().domain(data.map(function(d) {return d.platform;})).range([0,width]).padding(0.2);
+        var x = d3.scaleBand().domain(data.map(function(d) {return d.post_type;})).range([0,width]).padding(0.2);
         var y = d3.scaleLinear().domain([0,d3.max(data, function(d) {return d.avgLikes})]).range([height,0]);
 
         g.append("g")
@@ -109,7 +109,7 @@ layout: default
           .data(data)
           .enter()
           .append("rect")
-          .attr("x", function(d) { return x(d.platform); })
+          .attr("x", function(d) { return x(d.post_type); })
           .attr("y", function(d) { return y(d.avgLikes); })
           .attr("width", x.bandwidth())
           .attr("height", function(d) {return height - y(d.avgLikes); })
