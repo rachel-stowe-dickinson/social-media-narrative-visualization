@@ -72,13 +72,13 @@ layout: default
         var chart = d3.select("#"+chartId);
         chart.selectAll("*").remove();
 
-        var l_margin = 50, r_margin = 20, h_margin = 20;
+        var l_margin = 50, r_margin = 20, t_margin = 20, b_margin = 50;
         var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
-        var height = chart.node().getBoundingClientRect().width*5/6 - 2*h_margin;
-        chart.attr("height", height + 2*h_margin);
+        var height = chart.node().getBoundingClientRect().width*5/6 - (t_margin+b_margin);
+        chart.attr("height", height + (t_margin+b_margin));
 
         var g = chart.append("g")
-                      .attr("transform", "translate("+l_margin+","+h_margin+")");
+                      .attr("transform", "translate("+l_margin+","+t_margin+")");
 
         var avgData = d3.nest()
           .key(d => d.post_type)
@@ -99,7 +99,12 @@ layout: default
           .call(d3.axisLeft(y));
         g.append("g")
           .attr("transform", "translate(0,"+height+")")
-          .call(d3.axisBottom(x).tickArguments([5]));
+          .call(d3.axisBottom(x).tickArguments([5]))
+          .selectAll("text")
+          .attr("transform", "rotate(-45)")
+          .style("text-anchor", "end")
+          .attr("dx", "-0.8em")
+          .attr("dy", "0.15em");
 
         g.selectAll("rect")
           .data(avgData)
