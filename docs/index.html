@@ -107,6 +107,7 @@ layout: default
       const platforms = ["Facebook", "Instagram", "Twitter"]
       const post_types = ["image", "carousel", "video", "poll", "text"]
       const post_tones = ["positive", "neutral", "negative"]
+      const post_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
       var platformColor = d3.scaleOrdinal().domain(platforms).range(["royalblue", "tomato", "mediumpurple"]);
 
       // Function for creating a bar chart
@@ -226,6 +227,9 @@ layout: default
           barChart("chart4", filteredData, "likes", "sentiment_score", " post", post_tones, platform);
           barChart("chart5", filteredData, "comments", "sentiment_score", " post", post_tones, platform);
           barChart("chart6", filteredData, "shares", "sentiment_score", " post", post_tones, platform);
+          barChart("chart7", filteredData, "likes", "post_day", " post", post_days, platform);
+          barChart("chart8", filteredData, "comments", "post_day", " post", post_days, platform);
+          barChart("chart9", filteredData, "shares", "post_day", " post", post_days, platform);
         }
 
         // Function for updating second row of bar charts with post type filter
