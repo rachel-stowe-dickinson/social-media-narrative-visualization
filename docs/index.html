@@ -63,10 +63,13 @@ layout: default
       <svg id="chart2" width="100%"></svg>
       <svg id="chart3" width="100%"></svg>
     </div>
-    <div id="tooltip" style="opacity: 0; padding: 5px; background: #eee; position:absolute;"></div>
+    <div id="tooltip" style="opacity: 0; padding: 5px; background: #eee; position:absolute; z-index:1000; pointer-events: none;"></div>
     <script>
-      // Color for specific platform
-      var platforms = ["Facebook", "Instagram", "Twitter"]
+      // Define tooltip
+      const tooltip = d3.select("#tooltip");
+
+      // Colors for specific platform
+      const platforms = ["Facebook", "Instagram", "Twitter"]
       var platformColor = d3.scaleOrdinal().domain(platforms).range(["blue", "orange", "green"]);
 
       // Function for creating a bar chart
@@ -121,8 +124,7 @@ layout: default
           .attr("dx", "-0.8em")
           .attr("dy", "0.15em");
   
-        const tooltip = d3.select("#tooltip");
-        bars = g.selectAll("rect")
+        var bars = g.selectAll("rect")
           .data(avgData, d => d[yattr]);
         bars.enter()
           .append("rect")
@@ -137,9 +139,9 @@ layout: default
               .style("opacity",1);
             tooltip.html(d[yattr]+"<br>"+"Average "+xattr+": "+d.avg.toFixed(0));
           })
-          .on("mousemove", function(){
-            tooltip.style("left",(d3.event.pageX)+"px")
-              .style("top",(d3.event.pageY)+"px")
+          .on("mousemove", function(event){
+            tooltip.style("left",(d3.event.pageX + 10)+"px")
+              .style("top",(d3.event.pageY + 10)+"px")
           })
           .on("mouseout", function(){
             tooltip.transition()
