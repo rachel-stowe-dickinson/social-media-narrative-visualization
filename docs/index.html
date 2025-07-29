@@ -15,14 +15,14 @@ layout: default
         justify-content: space-between;
         gap: 20px;
         width: 100%;
-        padding: 20px;
+        padding: 10px;
         box-sizing: border-box;
       }
     
       .scene svg {
         flex: 1;
         max-width: 33%;
-        aspect-ratio: 4/3;
+        aspect-ratio: 6/5;
         border: 1px solid #ccc;
         background-color: white;
       }
@@ -44,10 +44,10 @@ layout: default
       // Populate chart 1
       var chart1 = d3.select("#chart1"),
         margin = 10,
-        width = chart1.node().getBoundingClientRect().width - 2 * margin,
-        height = width*3/4 - 2*margin;
+        width = chart1.node().getBoundingClientRect().width - 2*margin,
+        height = width*5/6 - 2*margin;
 
-      chart1.attr("height", height)
+      chart1.attr("height", height + 2*margin)
 
       var g = chart1.append("g")
                     .attr("transform", "translate(" + margin + "," + margin + ")");
