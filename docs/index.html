@@ -105,11 +105,14 @@ layout: default
           .rollup(values => d3.mean(values, d => d[xattr]))
           .entries(data)
           .map(d => ({ [yattr]: d.key, avg: d.value }));
-          var avgMap = d3.map(avgData, d => d[yattr]);
-          avgData = ydomain.map(val => ({
-            [yattr]: val,
-            avg: avgMap.get(val) != null ? avgMap.get(val) : 0
-          }));
+        var avgMap = {};
+        avgData.forEach(function(d) {
+          avgMap[d[yattr]] = d.avg;
+        });
+        avgData = ydomain.map(val => ({
+          [yattr]: val,
+          avg: avgMap.get(val) != null ? avgMap.get(val) : 0
+        }));
 
         var y = d3.scaleBand()
           .domain(ydomain)
@@ -156,7 +159,7 @@ layout: default
             tooltip.transition()
               .duration(200)
               .style("opacity",1);
-            tooltip.html("<strong>"+platform+" "+d[yattr]+"</strong><br>Average number of "+xattr+": "+d.avg.toFixed(0));
+            tooltip.html("<strong>"+platform+" "+d[yattr]+"post</strong><br>Average number of "+xattr+": "+d.avg.toFixed(0));
           })
           .on("mousemove", function(event){
             tooltip.style("left",(d3.event.pageX + 10)+"px")
