@@ -137,7 +137,7 @@ layout: default
           .attr("dy", "0.15em");
   
         var bars = g.selectAll("rect")
-          .data(avgData, d => d[yattr]);
+          .data(avgData);
         bars.enter()
           .append("rect")
           .attr("x", 0)
@@ -149,7 +149,7 @@ layout: default
             tooltip.transition()
               .duration(200)
               .style("opacity",1);
-            tooltip.html("<strong>"+d['platform']+" "+d[yattr]+"</strong><br>Average number of "+xattr+": "+d.avg.toFixed(0));
+            tooltip.html("<strong>"+d.platform+" "+d[yattr]+"</strong><br>Average number of "+xattr+": "+d.avg.toFixed(0));
           })
           .on("mousemove", function(event){
             tooltip.style("left",(d3.event.pageX + 10)+"px")
