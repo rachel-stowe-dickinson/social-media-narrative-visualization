@@ -52,7 +52,7 @@ layout: default
           .attr("x", function(d) { return x(d.platform); })
           .attr("y", function(d) { return y(d.avgLikes); })
           .attr("width", x.bandwidth())
-          .attr("height", function(d) {return height - y(d.likes); });
+          .attr("height", function(d) {return height - y(d.avgLikes); });
       });
       
     </script>
