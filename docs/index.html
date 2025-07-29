@@ -87,7 +87,7 @@ layout: default
           .key(d => d[yattr])
           .rollup(values => d3.mean(values, d => d[xattr]))
           .entries(data)
-          .map(d => ({ yattr: d.key, avg: d.value }));
+          .map(d => ({ [yattr]: d.key, avg: d.value }));
 
         var y = d3.scaleBand()
           .domain(avgData.map(function(d) {return d[yattr];}))
@@ -143,7 +143,7 @@ layout: default
           })
           .on("mouseout", function(){
             tooltip.transition()
-              .duration()
+              .duration(200)
               .style("opacity", 0);
           })
           .transition()
