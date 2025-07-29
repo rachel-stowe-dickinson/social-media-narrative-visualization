@@ -138,7 +138,7 @@ layout: default
             tooltip.transition()
               .duration(200)
               .style("opacity",1);
-            tooltip.html(d[yattr]+"<br>"+"Average "+xattr+": "+d.avg.toFixed(0));
+            tooltip.html("<b>"+d.platform+" "+d[yattr]+"</b><br>Average number of "+xattr+": "+d.avg.toFixed(0));
           })
           .on("mousemove", function(event){
             tooltip.style("left",(d3.event.pageX + 10)+"px")
