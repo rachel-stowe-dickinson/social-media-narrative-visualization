@@ -86,8 +86,9 @@ layout: default
       var platformColor = d3.scaleOrdinal().domain(platforms).range(["blue", "orange", "green"]);
 
       // Function for creating a bar chart
-      function barChart(chartId, data, xattr, yattr, ydomain, color){
+      function barChart(chartId, data, xattr, yattr, ydomain, platform){
         var chart = d3.select("#"+chartId);
+        var color = platformColor(platform);
         var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
         var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
         var height = chart.node().getBoundingClientRect().width*5/6 - (t_margin+b_margin);
@@ -138,7 +139,7 @@ layout: default
           .attr("dy", "0.15em");
   
         var bars = g.selectAll("rect")
-          .data(avgData);
+          .data(avgData, d => d[yattr]);
         bars.enter()
           .append("rect")
           .attr("x", 0)
@@ -150,7 +151,7 @@ layout: default
             tooltip.transition()
               .duration(200)
               .style("opacity",1);
-            tooltip.html("<strong>"+d.platform+" "+d[yattr]+"</strong><br>Average number of "+xattr+": "+d.avg.toFixed(0));
+            tooltip.html("<strong>"+d.platform+" "+platform+"</strong><br>Average number of "+xattr+": "+d.avg.toFixed(0));
           })
           .on("mousemove", function(event){
             tooltip.style("left",(d3.event.pageX + 10)+"px")
@@ -195,12 +196,12 @@ layout: default
       // Function for updating charts
       function updateCharts(platform){
         var filteredData = data.filter(function(d) {return d.platform == platform});
-        barChart("chart1", filteredData, "likes", "post_type", post_types, platformColor(platform));
-        barChart("chart2", filteredData, "comments", "post_type", post_types, platformColor(platform));
-        barChart("chart3", filteredData, "shares", "post_type", post_types, platformColor(platform));
-        barChart("chart4", filteredData, "likes", "sentiment_score", post_tones, platformColor(platform));
-        barChart("chart5", filteredData, "comments", "sentiment_score", post_tones, platformColor(platform));
-        barChart("chart6", filteredData, "shares", "sentiment_score", post_tones, platformColor(platform));
+        barChart("chart1", filteredData, "likes", "post_type", post_types, platform);
+        barChart("chart2", filteredData, "comments", "post_type", post_types, platform);
+        barChart("chart3", filteredData, "shares", "post_type", post_types, platform);
+        barChart("chart4", filteredData, "likes", "sentiment_score", post_tones, platform);
+        barChart("chart5", filteredData, "comments", "sentiment_score", post_tones, platform);
+        barChart("chart6", filteredData, "shares", "sentiment_score", post_tones, platform);
       }
 
       // Initially choose Facebook as platform
