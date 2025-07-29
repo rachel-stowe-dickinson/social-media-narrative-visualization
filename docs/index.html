@@ -127,6 +127,7 @@ layout: default
           .attr("y", function(d) {return y(d.post_type);})
           .on("mouseover", function(d){
             tooltip.transition()
+              .duration(200)
               .style("opacity",1)
               .html(d.post_type+"<br>"+"Average "+attribute+": "+d.avg.toFixed(0));
           })
@@ -136,6 +137,7 @@ layout: default
           })
           .on("mouseout", function(){
             tooltip.transition()
+              .duration()
               .style("opacity", 0);
           });
           bars.exit().remove();
