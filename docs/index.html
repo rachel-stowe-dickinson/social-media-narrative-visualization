@@ -101,14 +101,14 @@ layout: default
           .call(d3.axisLeft(y));
         g.append("g")
           .attr("transform", "translate(0,"+height+")")
-          .transition()
-          .duration(600)
-          .call(d3.axisBottom(x).ticks(5))
           .selectAll("text")
           .attr("transform", "rotate(-45)")
           .style("text-anchor", "end")
           .attr("dx", "-0.8em")
-          .attr("dy", "0.15em");
+          .attr("dy", "0.15em")
+          .transition()
+          .duration(600)
+          .call(d3.axisBottom(x).ticks(5));
 
         tooltip = d3.select("#tooltip");
         bars = g.selectAll("rect")
