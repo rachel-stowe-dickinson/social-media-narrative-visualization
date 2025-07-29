@@ -238,7 +238,13 @@ layout: default
           .attr("value", function(d) {return d;});
 
         // Update second row with type selection (initial selection: All)
-        select_type.on("change", function(){typeFilterUpdate(this.value);});
+        select_type.on("change", function(){
+          if (this.value != ""){
+            typeFilterUpdate(this.value);
+          } else {
+            updateCharts(d3.select("#platformSelection").node().value);
+          }
+        });
         
       });
 
