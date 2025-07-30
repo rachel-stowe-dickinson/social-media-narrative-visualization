@@ -373,7 +373,7 @@ layout: default
     // Function for updating a row of charts with post type selection
     function typeFilterUpdate(charts, attr, type, attr_list){
       var platform = d3.select("#platformSelection").node().value;
-      var filteredData = data;
+      var filteredData = data.filter(function(d) {return d.platform == platform});
       var desc = " " + type;
       if (type != "All"){
         filteredData = data.filter(function(d) {return d.platform == platform && d.post_type == type});
@@ -394,7 +394,7 @@ layout: default
     // Function for updating a final row with post day selection
     function dayFilterUpdate(day){
       var platform = d3.select("#platformSelection").node().value;
-      var filteredData = data;
+      var filteredData = data.filter(function(d) {return d.platform == platform});
       var desc = day + " post";
       if (type != "All"){
         filteredData = data.filter(function(d) {return d.platform == platform && d.post_day == day});
