@@ -64,7 +64,7 @@ layout: default
         font-size: 12px;
       }
     </style>
-    <h1>Social Media Narrative Visualization</h1>
+    <h1>A Visual Exploration of Social Media Engagement</h1>
     <h4>Select a Platform:</h4>
     <select id="platformSelection"></select>
     <h2>Average Engagement by Post Type</h2>
@@ -390,11 +390,15 @@ layout: default
           }
         }
 
-        // Function for populating values of type selection dropdown
-        function typeSelectVals (id){
+        // Function for populating values of a dropdown list
+        function populateDropdown (id, options, allowAll){
           var dropdown = d3.select(id);
+          data = options;
+          if (allowAll){
+            data = ["All", ...options];
+          }
           dropdown.selectAll("option")
-            .data(["All", ...post_types])
+            .data(data)
             .enter()
             .append("option")
             .text(function(d) {return d;})
@@ -403,31 +407,19 @@ layout: default
         }
 
         // Platform selection dropdown
-        var select = d3.select("#platformSelection");
-        select.selectAll("option")
-          .data(platforms)
-          .enter()
-          .append("option")
-          .text(function(d) {return d;})
-          .attr("value", function(d) {return d;});
+        var select_platform = populateDropdown("#platformSelection", platforms, false);
 
         // Type selection dropdowns
-        select_type = typeSelectVals("#typeSelection");
-        select_type2 = typeSelectVals("#typeSelection2");
-        select_type3 = typeSelectVals("#typeSelection3");
+        var select_type = populateDropdown("#typeSelection", post_types, true);
+        var select_type2 = populateDropdown("#typeSelection2", post_types, true);
+        var select_type3 = populateDropdown("#typeSelection3", post_types, true);
 
         // Day selection dropdown
-        var select_day = d3.select("#daySelection");
-        select_day.selectAll("option")
-          .data(post_days)
-          .enter()
-          .append("option")
-          .text(function(d) {return d;})
-          .attr("value", function(d) {return d;});
+        var select_day = populateDropdown("#daySelection", post_days, true);
 
         // Update all charts with platform selection (initial selection: Facebook)
         updateCharts("Facebook");
-        select.on("change", function(){
+        select_platform.on("change", function(){
           updateCharts(this.value);
           d3.select("#typeSelection").property("value", "All");
           d3.select("#typeSelection2").property("value", "All");
