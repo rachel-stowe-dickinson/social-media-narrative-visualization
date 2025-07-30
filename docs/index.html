@@ -388,12 +388,12 @@ layout: default
     // Function for populating values of a dropdown list
     function populateDropdown (id, options, allowAll){
       var dropdown = d3.select(id);
-      data = options;
+      vals = options;
       if (allowAll){
-        data = ["All", ...options];
+        vals = ["All", ...options];
       }
       dropdown.selectAll("option")
-        .data(data)
+        .data(vals)
         .enter()
         .append("option")
         .text(function(d) {return d;})
@@ -445,8 +445,5 @@ layout: default
     });
     
   });
-
-  
-  
 </script>
 
