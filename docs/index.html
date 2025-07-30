@@ -223,6 +223,101 @@ layout: default
 
         bars.exit().remove();
       }
+
+      // Function for creating a scatterplot
+      function scatter(chartId, data, xattr, yattr, yattr2, platform){
+        var chart = d3.select("#"+chartId);
+        var color = platformColor(platform);
+        var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
+        var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
+        var height = chart.node().getBoundingClientRect().width*5/6 - (t_margin+b_margin);
+        chart.attr("height", height + (t_margin+b_margin));
+
+        var parseHour = d3.timeParse("%H:%M");
+        data.forEach(d => {
+          d.time = parseHour(d[xattr]); 
+        });
+
+        var g = chart.select("g");
+        if (g.empty()){
+          g = chart.append("g")
+            .attr("transform", "translate("+l_margin+","+t_margin+")");
+        }           
+
+        var x = d3.scaleTime()
+          .domain([new Date(2000,0,1,0),new Date(2000,0,1,23)])
+          .range([0,width]);
+
+        var y = d3.scaleLinear()
+          .domain([0,d3.max(data, d => d[yattr])])
+          .range([height,0]);
+
+        var yAxis = g.select(".yaxis");
+        if (yAxis.empty()) {
+          yAxis = g.append("g").attr("class", "yaxis");
+        }
+        yAxis.transition()
+          .duration(600)
+          .call(d3.axisLeft(y));
+
+        var xAxis = g.select(".xaxis");
+        if (xAxis.empty()) {
+          xAxis = g.append("g")
+            .attr("class", "xaxis")
+            .attr("transform", "translate(0," + height + ")");
+        }
+        xAxis.transition()
+          .duration(600)
+          .call(d3.axisBottom(x)
+            .ticks(d3.timeHour.every(1))
+            .tickFormat(d3.timeFormat("%H:%M")));
+        xAxis.selectAll("text")
+          .attr("transform", "rotate(-45)")
+          .style("text-anchor", "end")
+          .attr("dx", "-0.8em")
+          .attr("dy", "0.15em");
+
+        var circles = g.selectAll("circle")
+          .data(data, d => d.time + "-" + d[yattr])
+
+        circles.enter()
+          .append("circle")
+          .attr("cx", function(d) {return x(d.time);})
+          .attr("cy", function(d) {return y(d[yattr]);})
+          .attr("r", 0)
+          .attr("fill", color)
+          .on("mouseover", function(d){
+            tooltip.transition()
+              .duration(200)
+              .style("opacity",1);
+            tooltip.html("<strong>"+platform+": "+d3.timeFormat("%H:%M")(d.time)+yattr2+"</strong><br>Average number of "+xattr+": "+d.avg.toFixed(0));
+          })
+          .on("mousemove", function(event){
+            tooltip.style("left",(d3.event.pageX + 10)+"px")
+              .style("top",(d3.event.pageY + 10)+"px")
+          })
+          .on("mouseout", function(){
+            tooltip.transition()
+              .duration(200)
+              .style("opacity", 0);
+          })
+          .transition()
+          .duration(600)
+          .attr("r", 5);
+
+          circles.transition()
+            .duration(600)
+            .attr("cx", d => x(d._time))
+            .attr("cy", d => y(d[yattr]))
+            .attr("fill", color)
+            .attr("r", 5);
+
+          circles.exit()
+            .transition()
+            .duration(300)
+            .attr("r", 0)
+            .remove();
+      }
       
       // Load CSV data
       d3.csv("social_media_engagement1.csv", function(data) {
@@ -244,6 +339,9 @@ layout: default
           barChart("chart7", filteredData, "likes", "post_day", " post", post_days, platform);
           barChart("chart8", filteredData, "comments", "post_day", " post", post_days, platform);
           barChart("chart9", filteredData, "shares", "post_day", " post", post_days, platform);
+          scatter("chart10", filteredData, "post_time", "likes", " post time", platform);
+          scatter("chart11", filteredData, "post_time", "comments", " post time", platform);
+          scatter("chart12", filteredData, "post_time", "shares", " post time", platform);
         }
 
         // Function for updating second row of bar charts with post type filter
