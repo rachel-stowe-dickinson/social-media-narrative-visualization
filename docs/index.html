@@ -361,9 +361,9 @@ layout: default
         function typeFilterUpdate2(type){
           var platform = d3.select("#platformSelection").node().value;
           var filteredData = data.filter(function(d) {return d.platform == platform && d.post_type == type});
-          barChart("chart7", filteredData, "likes", "post_day", " "+type, post_tones, platform);
-          barChart("chart8", filteredData, "comments", "post_day", " "+type, post_tones, platform);
-          barChart("chart9", filteredData, "shares", "post_day", " "+type, post_tones, platform);
+          barChart("chart7", filteredData, "likes", "post_day", " "+type, post_days, platform);
+          barChart("chart8", filteredData, "comments", "post_day", " "+type, post_days, platform);
+          barChart("chart9", filteredData, "shares", "post_day", " "+type, post_days, platform);
         }
 
         // Platform selection dropdown
