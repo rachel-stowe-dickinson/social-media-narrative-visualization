@@ -314,7 +314,8 @@ layout: default
         tooltip.transition()
           .duration(200)
           .style("opacity",1);
-        tooltip.html(`<strong>${platform}: ${yattr2}</strong><br>` +
+        tooltip.html(`<strong>${platform} ${d.post_type}</strong><br>` +
+                      `Day: <strong>${d.post_day}</strong>` + 
                       `Time: <strong>${d3.timeFormat("%H:%M")(d.time)}</strong><br>` +
                       `Number of ${yattr}: <strong>${d[yattr]}</strong>`);
       })
