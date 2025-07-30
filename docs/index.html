@@ -7,7 +7,7 @@ layout: default
   #platformSelection{
     display:block;
     margin: 20px auto;
-    font-size: 16px;
+    font-size: 20px;
   }
   .sceneheader {
     display: flex;
@@ -373,7 +373,10 @@ layout: default
     // Function for updating a row of charts with post type selection
     function typeFilterUpdate(charts, attr, type, attr_list){
       var platform = d3.select("#platformSelection").node().value;
-      var filteredData = data.filter(function(d) {return d.platform == platform && d.post_type == type});
+      var filteredData = data;
+      if (type != "All"){
+        filteredData = data.filter(function(d) {return d.platform == platform && d.post_type == type});
+      }
       if (attr_list != null) {
         barChart(charts[0], filteredData, "likes", attr, " "+type, attr_list, platform);
         barChart(charts[1], filteredData, "comments", attr, " "+type, attr_list, platform);
@@ -423,25 +426,13 @@ layout: default
 
     // Update specified row with type selection (initial selection: All)
     select_type.on("change", function(){
-      if (this.value != "All"){
-        typeFilterUpdate(["chart4","chart5","chart6"], "sentiment_score", this.value, post_tones);
-      } else {
-        updateCharts(d3.select("#platformSelection").node().value);
-      }
+      typeFilterUpdate(["chart4","chart5","chart6"], "sentiment_score", this.value, post_tones);
     });
     select_type2.on("change", function(){
-      if (this.value != "All"){
-        typeFilterUpdate(["chart7","chart8","chart9"], "post_day", this.value, post_days);
-      } else {
-        updateCharts(d3.select("#platformSelection").node().value);
-      }
+      typeFilterUpdate(["chart7","chart8","chart9"], "post_day", this.value, post_days);
     });
     select_type3.on("change", function(){
-      if (this.value != "All"){
-        typeFilterUpdate(["chart10","chart11","chart12"], "post_time", this.value, null);
-      } else {
-        updateCharts(d3.select("#platformSelection").node().value);
-      }
+      typeFilterUpdate(["chart10","chart11","chart12"], "post_time", this.value, null);
     });
     
   });
