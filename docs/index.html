@@ -358,7 +358,7 @@ layout: default
           d.shares = +d.shares;
         });
 
-        // Function for updating all bar charts
+        // Function for updating all charts with new platform selection
         function updateCharts(platform){
           var filteredData = data.filter(function(d) {return d.platform == platform});
           barChart("chart1", filteredData, "likes", "post_type", "", post_types, platform);
@@ -375,31 +375,26 @@ layout: default
           scatter("chart12", filteredData, "post_time", "shares", " post", platform);
         }
 
-        // Function for updating row of bar charts with post type filter
+        // Function for updating a row of charts with post type selection
         function typeFilterUpdate(charts, attr, type, attr_list){
           var platform = d3.select("#platformSelection").node().value;
           var filteredData = data.filter(function(d) {return d.platform == platform && d.post_type == type});
-          barChart(charts[0], filteredData, "likes", attr, " "+type, attr_list, platform);
-          barChart(charts[1], filteredData, "comments", attr, " "+type, attr_list, platform);
-          barChart(charts[2], filteredData, "shares", attr, " "+type, attr_list, platform);
+          if (attr_list != null) {
+            barChart(charts[0], filteredData, "likes", attr, " "+type, attr_list, platform);
+            barChart(charts[1], filteredData, "comments", attr, " "+type, attr_list, platform);
+            barChart(charts[2], filteredData, "shares", attr, " "+type, attr_list, platform);
+          }
         }
 
-        // Function for updating third row of bar charts with post type filter
-        function typeFilterUpdate2(type){
-          var platform = d3.select("#platformSelection").node().value;
-          var filteredData = data.filter(function(d) {return d.platform == platform && d.post_type == type});
-          barChart("chart7", filteredData, "likes", "post_day", " "+type, post_days, platform);
-          barChart("chart8", filteredData, "comments", "post_day", " "+type, post_days, platform);
-          barChart("chart9", filteredData, "shares", "post_day", " "+type, post_days, platform);
-        }
-
-        // Function for updating third row of bar charts with post type filter
-        function typeFilterUpdate2(type){
-          var platform = d3.select("#platformSelection").node().value;
-          var filteredData = data.filter(function(d) {return d.platform == platform && d.post_type == type});
-          barChart("chart7", filteredData, "likes", "post_day", " "+type, post_days, platform);
-          barChart("chart8", filteredData, "comments", "post_day", " "+type, post_days, platform);
-          barChart("chart9", filteredData, "shares", "post_day", " "+type, post_days, platform);
+        // Function for populating values of type selection dropdown
+        function typeSelectVals (id){
+          var select_type = d3.select(id);
+          select_type.selectAll("option")
+            .data(["all", ...post_types])
+            .enter()
+            .append("option")
+            .text(function(d) {return d;})
+            .attr("value", function(d) {return d;});
         }
 
         // Platform selection dropdown
@@ -411,6 +406,11 @@ layout: default
           .text(function(d) {return d;})
           .attr("value", function(d) {return d;});
 
+        // Type selection dropdowns
+        typeSelectVals("#typeSelection");
+        typeSelectVals("#typeSelection2");
+        typeSelectVals("#typeSelection3");
+
         // Update all charts with platform selection (initial selection: Facebook)
         updateCharts("Facebook");
         select.on("change", function(){
@@ -418,16 +418,7 @@ layout: default
           d3.select("#typeSelection").property("value", "");
         });
 
-        // Type selection dropdown
-        var select_type = d3.select("#typeSelection");
-        select_type.selectAll("option")
-          .data(["all", ...post_types])
-          .enter()
-          .append("option")
-          .text(function(d) {return d;})
-          .attr("value", function(d) {return d;});
-
-        // Update second row with type selection (initial selection: All)
+        // Update specified row with type selection (initial selection: All)
         select_type.on("change", function(){
           if (this.value != "all"){
             typeFilterUpdate(["chart4","chart5","chart6"], "sentiment_score", this.value, post_tones);
@@ -435,17 +426,6 @@ layout: default
             updateCharts(d3.select("#platformSelection").node().value);
           }
         });
-
-        // Type selection dropdown 2
-        var select_type2 = d3.select("#typeSelection2");
-        select_type2.selectAll("option")
-          .data(["all", ...post_types])
-          .enter()
-          .append("option")
-          .text(function(d) {return d;})
-          .attr("value", function(d) {return d;});
-
-        // Update third row with type selection (initial selection: All)
         select_type2.on("change", function(){
           if (this.value != "all"){
             typeFilterUpdate(["chart7","chart8","chart9"], "post_day", this.value, post_days);
@@ -453,20 +433,9 @@ layout: default
             updateCharts(d3.select("#platformSelection").node().value);
           }
         });
-
-        // Type selection dropdown 3
-        var select_type3 = d3.select("#typeSelection3");
-        select_type3.selectAll("option")
-          .data(["all", ...post_types])
-          .enter()
-          .append("option")
-          .text(function(d) {return d;})
-          .attr("value", function(d) {return d;});
-
-        // Update fourth row with type selection (initial selection: All)
         select_type3.on("change", function(){
           if (this.value != "all"){
-            typeFilterUpdate3(this.value);
+            typeFilterUpdate(["chart10","chart11","chart12"], "post_time", this.value, null);
           } else {
             updateCharts(d3.select("#platformSelection").node().value);
           }
