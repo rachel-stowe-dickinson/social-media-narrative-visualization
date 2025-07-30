@@ -412,6 +412,15 @@ layout: default
         select_type2 = typeSelectVals("#typeSelection2");
         select_type3 = typeSelectVals("#typeSelection3");
 
+        // Day selection dropdown
+        var select_day = d3.select("#daySelection");
+        select_day.selectAll("option")
+          .data(post_days)
+          .enter()
+          .append("option")
+          .text(function(d) {return d;})
+          .attr("value", function(d) {return d;});
+
         // Update all charts with platform selection (initial selection: Facebook)
         updateCharts("Facebook");
         select.on("change", function(){
