@@ -430,7 +430,7 @@ layout: default
         // Update second row with type selection (initial selection: All)
         select_type.on("change", function(){
           if (this.value != "all"){
-            typeFilterUpdate(["chart4","chart5","chart6"], "sentiment_value", this.value, post_tones);
+            typeFilterUpdate(["chart4","chart5","chart6"], "sentiment_score", this.value, post_tones);
           } else {
             updateCharts(d3.select("#platformSelection").node().value);
           }
@@ -448,7 +448,7 @@ layout: default
         // Update third row with type selection (initial selection: All)
         select_type2.on("change", function(){
           if (this.value != "all"){
-            typeFilterUpdate2(this.value);
+            typeFilterUpdate2(["chart7","chart8","chart9"], "post_day", this.value, post_days);
           } else {
             updateCharts(d3.select("#platformSelection").node().value);
           }
