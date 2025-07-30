@@ -7,7 +7,7 @@ layout: default
   #platformSelection{
     display:block;
     margin: 20px auto;
-    font-size: 20px;
+    font-size: 16px;
   }
   .sceneheader {
     display: flex;
@@ -374,17 +374,20 @@ layout: default
     function typeFilterUpdate(charts, attr, type, attr_list){
       var platform = d3.select("#platformSelection").node().value;
       var filteredData = data;
+      var desc = " " + type;
       if (type != "All"){
         filteredData = data.filter(function(d) {return d.platform == platform && d.post_type == type});
+      } else {
+        desc = " post";
       }
       if (attr_list != null) {
-        barChart(charts[0], filteredData, "likes", attr, " "+type, attr_list, platform);
-        barChart(charts[1], filteredData, "comments", attr, " "+type, attr_list, platform);
-        barChart(charts[2], filteredData, "shares", attr, " "+type, attr_list, platform);
+        barChart(charts[0], filteredData, "likes", attr, desc, attr_list, platform);
+        barChart(charts[1], filteredData, "comments", attr, desc, attr_list, platform);
+        barChart(charts[2], filteredData, "shares", attr, desc, attr_list, platform);
       } else {
-        scatter(charts[0], filteredData, attr, "likes", " "+type, platform);
-        scatter(charts[1], filteredData, attr, "comments", " "+type, platform);
-        scatter(charts[2], filteredData, attr, "shares", " "+type, platform);
+        scatter(charts[0], filteredData, attr, "likes", desc, platform);
+        scatter(charts[1], filteredData, attr, "comments", desc, platform);
+        scatter(charts[2], filteredData, attr, "shares", desc, platform);
       }
     }
 
