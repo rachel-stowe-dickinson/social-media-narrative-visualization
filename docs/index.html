@@ -390,7 +390,7 @@ layout: default
         function typeSelectVals (id){
           var select_type = d3.select(id);
           select_type.selectAll("option")
-            .data(["all", ...post_types])
+            .data(["All", ...post_types])
             .enter()
             .append("option")
             .text(function(d) {return d;})
@@ -415,26 +415,28 @@ layout: default
         updateCharts("Facebook");
         select.on("change", function(){
           updateCharts(this.value);
-          d3.select("#typeSelection").property("value", "");
+          d3.select("#typeSelection").property("value", "All");
+          d3.select("#typeSelection2").property("value", "All");
+          d3.select("#typeSelection3").property("value", "All");
         });
 
         // Update specified row with type selection (initial selection: All)
         select_type.on("change", function(){
-          if (this.value != "all"){
+          if (this.value != "All"){
             typeFilterUpdate(["chart4","chart5","chart6"], "sentiment_score", this.value, post_tones);
           } else {
             updateCharts(d3.select("#platformSelection").node().value);
           }
         });
         select_type2.on("change", function(){
-          if (this.value != "all"){
+          if (this.value != "All"){
             typeFilterUpdate(["chart7","chart8","chart9"], "post_day", this.value, post_days);
           } else {
             updateCharts(d3.select("#platformSelection").node().value);
           }
         });
         select_type3.on("change", function(){
-          if (this.value != "all"){
+          if (this.value != "All"){
             typeFilterUpdate(["chart10","chart11","chart12"], "post_time", this.value, null);
           } else {
             updateCharts(d3.select("#platformSelection").node().value);
