@@ -2,458 +2,449 @@
 layout: default
 ---
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>A Visual Exploration of Social Media Engagement</title>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-  </head>
-  <body>
-    <style>
-      #platformSelection{
-        display:block;
-        margin: 20px auto;
-        font-size: 16px;
-      }
-      .sceneheader {
-        display: flex;
-        justify-content: space-between;
-        gap: 10px;
-        width: 100%;
-        box-sizing: border-box;
-      }
-      .sceneheader div {
-        flex: 1;
-        max-width: 33%;
-      }
-      .selectbox {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 10px;
-      }
-      .selectbox h5 {
-        margin: 0; 
-      }
-      h4 {
-        text-align: center;
-      }
-      .scene {
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        width: 100%;
-        padding: 10px;
-        box-sizing: border-box;
-      }
-      .scene svg {
-        flex: 1;
-        max-width: 33%;
-        aspect-ratio: 6/5;
-        border: 1px solid #ccc;
-        background-color: white;
-      }
-      #tooltip {
-        opacity: 0; 
-        padding: 5px; 
-        background:#eee; 
-        position:absolute; 
-        z-index:1000; 
-        pointer-events: none;
-        border-radius: 4px;
-        font-size: 12px;
-      }
-    </style>
-    <h1>A Visual Exploration of Social Media Engagement</h1>
-    <h4>Select a Platform:</h4>
-    <select id="platformSelection"></select>
-    <h2>Average Engagement by Post Type</h2>
-    <div class="sceneheader">
-      <div><h4>Average Like Count</h4></div>
-      <div><h4>Average Comment Count</h4></div>
-      <div><h4>Average Share Count</h4></div>
-    </div>
-    <div class="scene">
-      <svg id="chart1" width="100%"></svg>
-      <svg id="chart2" width="100%"></svg>
-      <svg id="chart3" width="100%"></svg>
-    </div>
-    <h2>Average Engagement by Tone</h2>
-    <div class="selectbox">
-      <h5>Select a Post Type:</h5>
-      <select id="typeSelection"></select>
-    </div>
-    <div class="sceneheader">
-      <div><h4>Average Like Count</h4></div>
-      <div><h4>Average Comment Count</h4></div>
-      <div><h4>Average Share Count</h4></div>
-    </div>
-    <div class="scene">
-      <svg id="chart4" width="100%"></svg>
-      <svg id="chart5" width="100%"></svg>
-      <svg id="chart6" width="100%"></svg>
-    </div>
-    <h2>Average Engagement by Post Day</h2>
-    <div class="selectbox">
-      <h5>Select a Post Type:</h5>
-      <select id="typeSelection2"></select>
-    </div>
-    <div class="sceneheader">
-      <div><h4>Average Like Count</h4></div>
-      <div><h4>Average Comment Count</h4></div>
-      <div><h4>Average Share Count</h4></div>
-    </div>
-    <div class="scene">
-      <svg id="chart7" width="100%"></svg>
-      <svg id="chart8" width="100%"></svg>
-      <svg id="chart9" width="100%"></svg>
-    </div>
-    <h2>Engagement by Post Time</h2>
-    <div class="selectbox">
-      <h5>Select a Post Type:</h5>
-      <select id="typeSelection3"></select>
-    </div>
-    <div class="selectbox">
-      <h5>Select a Post Day:</h5>
-      <select id="daySelection"></select>
-    </div>
-    <div class="sceneheader">
-      <div><h4>Like Count</h4></div>
-      <div><h4>Comment Count</h4></div>
-      <div><h4>Share Count</h4></div>
-    </div>
-    <div class="scene">
-      <svg id="chart10" width="100%"></svg>
-      <svg id="chart11" width="100%"></svg>
-      <svg id="chart12" width="100%"></svg>
-    </div>
-    <div id="tooltip"></div>
-    <script>
-      // Define tooltip
-      const tooltip = d3.select("#tooltip");
+<style>
+  #platformSelection{
+    display:block;
+    margin: 20px auto;
+    font-size: 16px;
+  }
+  .sceneheader {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .sceneheader div {
+    flex: 1;
+    max-width: 33%;
+  }
+  .selectbox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  .selectbox h5 {
+    margin: 0; 
+  }
+  h4 {
+    text-align: center;
+  }
+  .scene {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+  .scene svg {
+    flex: 1;
+    max-width: 33%;
+    aspect-ratio: 6/5;
+    border: 1px solid #ccc;
+    background-color: white;
+  }
+  #tooltip {
+    opacity: 0; 
+    padding: 5px; 
+    background:#eee; 
+    position:absolute; 
+    z-index:1000; 
+    pointer-events: none;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+</style>
+<h1>A Visual Exploration of Social Media Engagement</h1>
+<h4>Select a Platform:</h4>
+<select id="platformSelection"></select>
+<h2>Average Engagement by Post Type</h2>
+<div class="sceneheader">
+  <div><h4>Average Like Count</h4></div>
+  <div><h4>Average Comment Count</h4></div>
+  <div><h4>Average Share Count</h4></div>
+</div>
+<div class="scene">
+  <svg id="chart1" width="100%"></svg>
+  <svg id="chart2" width="100%"></svg>
+  <svg id="chart3" width="100%"></svg>
+</div>
+<h2>Average Engagement by Tone</h2>
+<div class="selectbox">
+  <h5>Select a Post Type:</h5>
+  <select id="typeSelection"></select>
+</div>
+<div class="sceneheader">
+  <div><h4>Average Like Count</h4></div>
+  <div><h4>Average Comment Count</h4></div>
+  <div><h4>Average Share Count</h4></div>
+</div>
+<div class="scene">
+  <svg id="chart4" width="100%"></svg>
+  <svg id="chart5" width="100%"></svg>
+  <svg id="chart6" width="100%"></svg>
+</div>
+<h2>Average Engagement by Post Day</h2>
+<div class="selectbox">
+  <h5>Select a Post Type:</h5>
+  <select id="typeSelection2"></select>
+</div>
+<div class="sceneheader">
+  <div><h4>Average Like Count</h4></div>
+  <div><h4>Average Comment Count</h4></div>
+  <div><h4>Average Share Count</h4></div>
+</div>
+<div class="scene">
+  <svg id="chart7" width="100%"></svg>
+  <svg id="chart8" width="100%"></svg>
+  <svg id="chart9" width="100%"></svg>
+</div>
+<h2>Engagement by Post Time</h2>
+<div class="selectbox">
+  <h5>Select a Post Type:</h5>
+  <select id="typeSelection3"></select>
+</div>
+<div class="selectbox">
+  <h5>Select a Post Day:</h5>
+  <select id="daySelection"></select>
+</div>
+<div class="sceneheader">
+  <div><h4>Like Count</h4></div>
+  <div><h4>Comment Count</h4></div>
+  <div><h4>Share Count</h4></div>
+</div>
+<div class="scene">
+  <svg id="chart10" width="100%"></svg>
+  <svg id="chart11" width="100%"></svg>
+  <svg id="chart12" width="100%"></svg>
+</div>
+<div id="tooltip"></div>
+<script>
+  // Define tooltip
+  const tooltip = d3.select("#tooltip");
 
-      // Colors for specific platform
-      const platforms = ["Facebook", "Instagram", "Twitter"]
-      const post_types = ["image", "carousel", "video", "poll", "text"]
-      const post_tones = ["positive", "neutral", "negative"]
-      const post_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-      var platformColor = d3.scaleOrdinal().domain(platforms).range(["royalblue", "tomato", "mediumpurple"]);
+  // Colors for specific platform
+  const platforms = ["Facebook", "Instagram", "Twitter"]
+  const post_types = ["image", "carousel", "video", "poll", "text"]
+  const post_tones = ["positive", "neutral", "negative"]
+  const post_days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  var platformColor = d3.scaleOrdinal().domain(platforms).range(["royalblue", "tomato", "mediumpurple"]);
 
-      // Function for creating a bar chart
-      function barChart(chartId, data, xattr, yattr, yattr2, ydomain, platform){
-        var chart = d3.select("#"+chartId);
-        var color = platformColor(platform);
-        var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
-        var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
-        var height = chart.node().getBoundingClientRect().width*5/6 - (t_margin+b_margin);
-        chart.attr("height", height + (t_margin+b_margin));
+  // Function for creating a bar chart
+  function barChart(chartId, data, xattr, yattr, yattr2, ydomain, platform){
+    var chart = d3.select("#"+chartId);
+    var color = platformColor(platform);
+    var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
+    var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
+    var height = chart.node().getBoundingClientRect().width*5/6 - (t_margin+b_margin);
+    chart.attr("height", height + (t_margin+b_margin));
 
-        var g = chart.select("g");
-        if (g.empty()){
-          g = chart.append("g")
-            .attr("transform", "translate("+l_margin+","+t_margin+")");
-        }           
+    var g = chart.select("g");
+    if (g.empty()){
+      g = chart.append("g")
+        .attr("transform", "translate("+l_margin+","+t_margin+")");
+    }           
 
-        var avgData = d3.nest()
-          .key(d => d[yattr])
-          .rollup(values => d3.mean(values, d => d[xattr]))
-          .entries(data)
-          .map(d => ({ [yattr]: d.key, avg: d.value }));
-        var avgMap = {};
-        avgData.forEach(function(d) {
-          avgMap[d[yattr]] = d.avg;
-        });
-        avgData = ydomain.map(val => ({
-          [yattr]: val,
-          avg: avgMap[val] != null ? avgMap[val] : 0
-        }));
+    var avgData = d3.nest()
+      .key(d => d[yattr])
+      .rollup(values => d3.mean(values, d => d[xattr]))
+      .entries(data)
+      .map(d => ({ [yattr]: d.key, avg: d.value }));
+    var avgMap = {};
+    avgData.forEach(function(d) {
+      avgMap[d[yattr]] = d.avg;
+    });
+    avgData = ydomain.map(val => ({
+      [yattr]: val,
+      avg: avgMap[val] != null ? avgMap[val] : 0
+    }));
 
-        var y = d3.scaleBand()
-          .domain(ydomain)
-          .range([0,height])
-          .padding(0.2);
+    var y = d3.scaleBand()
+      .domain(ydomain)
+      .range([0,height])
+      .padding(0.2);
 
-        var x = d3.scaleLinear()
-          .domain([0,d3.max(avgData, d => d.avg)])
-          .range([0,width]);
+    var x = d3.scaleLinear()
+      .domain([0,d3.max(avgData, d => d.avg)])
+      .range([0,width]);
 
-        var yAxis = g.select(".yaxis");
-        if (yAxis.empty()) {
-          yAxis = g.append("g").attr("class", "yaxis");
-        }
-        if (yattr != "post_day") {
-          yAxis.transition()
-            .duration(600)
-            .call(d3.axisLeft(y));
-        } else {
-          const day_abbr = {"Monday":"Mon", 
-                            "Tuesday":"Tue", 
-                            "Wednesday":"Wed", 
-                            "Thursday":"Thu", 
-                            "Friday":"Fri", 
-                            "Saturday":"Sat",
-                            "Sunday":"Sun"};
-          yAxis.transition()
-            .duration(600)
-            .call(d3.axisLeft(y)
-            .tickFormat(d => day_abbr[d] || d));
-        }
+    var yAxis = g.select(".yaxis");
+    if (yAxis.empty()) {
+      yAxis = g.append("g").attr("class", "yaxis");
+    }
+    if (yattr != "post_day") {
+      yAxis.transition()
+        .duration(600)
+        .call(d3.axisLeft(y));
+    } else {
+      const day_abbr = {"Monday":"Mon", 
+                        "Tuesday":"Tue", 
+                        "Wednesday":"Wed", 
+                        "Thursday":"Thu", 
+                        "Friday":"Fri", 
+                        "Saturday":"Sat",
+                        "Sunday":"Sun"};
+      yAxis.transition()
+        .duration(600)
+        .call(d3.axisLeft(y)
+        .tickFormat(d => day_abbr[d] || d));
+    }
 
-        var xAxis = g.select(".xaxis");
-        if (xAxis.empty()) {
-          xAxis = g.append("g")
-            .attr("class", "xaxis")
-            .attr("transform", "translate(0," + height + ")");
-        }
-        xAxis.transition()
-          .duration(600)
-          .call(d3.axisBottom(x).ticks(5));
-        xAxis.selectAll("text")
-          .attr("transform", "rotate(-45)")
-          .style("text-anchor", "end")
-          .attr("dx", "-0.8em")
-          .attr("dy", "0.15em");
+    var xAxis = g.select(".xaxis");
+    if (xAxis.empty()) {
+      xAxis = g.append("g")
+        .attr("class", "xaxis")
+        .attr("transform", "translate(0," + height + ")");
+    }
+    xAxis.transition()
+      .duration(600)
+      .call(d3.axisBottom(x).ticks(5));
+    xAxis.selectAll("text")
+      .attr("transform", "rotate(-45)")
+      .style("text-anchor", "end")
+      .attr("dx", "-0.8em")
+      .attr("dy", "0.15em");
+
+    var bars = g.selectAll("rect")
+      .data(avgData, d => d[yattr]);
+    bars.enter()
+      .append("rect")
+      .attr("x", 0)
+      .attr("y", function(d) { return y(d[yattr]); })
+      .attr("height", y.bandwidth())
+      .attr("width",0)
+      .attr("fill", color)
+      .merge(bars)
+      .on("mouseover", function(d){
+        tooltip.transition()
+          .duration(200)
+          .style("opacity",1);
+        tooltip.html("<strong>"+platform+": "+d[yattr]+yattr2+"</strong><br>Average number of "+xattr+": <strong>"+d.avg.toFixed(0)+"</strong>");
+      })
+      .on("mousemove", function(event){
+        tooltip.style("left",(d3.event.pageX + 10)+"px")
+          .style("top",(d3.event.pageY + 10)+"px")
+      })
+      .on("mouseout", function(){
+        tooltip.transition()
+          .duration(200)
+          .style("opacity", 0);
+      })
+      .transition()
+      .duration(600)
+      .attr("width", function(d) {return x(d.avg)})
+      .attr("fill", color);
+    
+    bars.transition()
+      .duration(600)
+      .attr("y", function(d) {return y(d[yattr])})
+      .attr("width", function(d) {return x(d.avg)})
+      .attr("fill", color);
+
+    bars.exit().remove();
+  }
+
+  // Function for creating a scatterplot
+  function scatter(chartId, data, xattr, yattr, yattr2, platform){
+    var chart = d3.select("#"+chartId);
+    var color = platformColor(platform);
+    var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
+    var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
+    var height = chart.node().getBoundingClientRect().width*5/6 - (t_margin+b_margin);
+    chart.attr("height", height + (t_margin+b_margin));
+
+    var parseHour = d3.timeParse("%m/%d/%Y %H:%M");
+    data.forEach(d => {
+      d.time = new Date(2000,0,1,parseHour(d[xattr]).getHours(),parseHour(d[xattr]).getMinutes()); 
+    });
+
+    var g = chart.select("g");
+    if (g.empty()){
+      g = chart.append("g")
+        .attr("transform", "translate("+l_margin+","+t_margin+")");
+    }           
+
+    var x = d3.scaleTime()
+      .domain([new Date(2000,0,1,0),new Date(2000,0,1,23)])
+      .range([0,width]);
+
+    var y = d3.scaleLinear()
+      .domain([0,d3.max(data, d => d[yattr])])
+      .range([height,0]);
+
+    var yAxis = g.select(".yaxis");
+    if (yAxis.empty()) {
+      yAxis = g.append("g").attr("class", "yaxis");
+    }
+    yAxis.transition()
+      .duration(600)
+      .call(d3.axisLeft(y));
+
+    var xAxis = g.select(".xaxis");
+    if (xAxis.empty()) {
+      xAxis = g.append("g")
+        .attr("class", "xaxis")
+        .attr("transform", "translate(0," + height + ")");
+    }
+    xAxis.transition()
+      .duration(600)
+      .call(d3.axisBottom(x)
+        .ticks(d3.timeHour.every(3))
+        .tickFormat(d3.timeFormat("%H:%M")));
+    xAxis.selectAll("text")
+      .attr("transform", "rotate(-45)")
+      .style("text-anchor", "end")
+      .attr("dx", "-0.8em")
+      .attr("dy", "0.15em");
+
+    var circles = g.selectAll("circle")
+      .data(data, d => d.time + "-" + d[yattr])
+
+    circles.enter()
+      .append("circle")
+      .attr("cx", function(d) {return x(d.time);})
+      .attr("cy", function(d) {return y(d[yattr]);})
+      .attr("r", 0)
+      .attr("fill", color)
+      .on("mouseover", function(d){
+        tooltip.transition()
+          .duration(200)
+          .style("opacity",1);
+        tooltip.html(`<strong>${platform} ${yattr2}</strong><br>` +
+                      `Time: <strong>${d3.timeFormat("%H:%M")(d.time)}</strong><br>` +
+                      `Number of ${yattr}: <strong>${d[yattr]}</strong>`);
+      })
+      .on("mousemove", function(event){
+        tooltip.style("left",(d3.event.pageX + 10)+"px")
+          .style("top",(d3.event.pageY + 10)+"px")
+      })
+      .on("mouseout", function(){
+        tooltip.transition()
+          .duration(200)
+          .style("opacity", 0);
+      })
+      .transition()
+      .duration(600)
+      .attr("r", 5);
+
+    circles.transition()
+      .duration(600)
+      .attr("cx", d => x(d.time))
+      .attr("cy", d => y(d[yattr]))
+      .attr("fill", color)
+      .attr("r", 5);
+
+    circles.exit()
+      .transition()
+      .duration(300)
+      .attr("r", 0)
+      .remove();
+  }
   
-        var bars = g.selectAll("rect")
-          .data(avgData, d => d[yattr]);
-        bars.enter()
-          .append("rect")
-          .attr("x", 0)
-          .attr("y", function(d) { return y(d[yattr]); })
-          .attr("height", y.bandwidth())
-          .attr("width",0)
-          .attr("fill", color)
-          .merge(bars)
-          .on("mouseover", function(d){
-            tooltip.transition()
-              .duration(200)
-              .style("opacity",1);
-            tooltip.html("<strong>"+platform+": "+d[yattr]+yattr2+"</strong><br>Average number of "+xattr+": <strong>"+d.avg.toFixed(0)+"</strong>");
-          })
-          .on("mousemove", function(event){
-            tooltip.style("left",(d3.event.pageX + 10)+"px")
-              .style("top",(d3.event.pageY + 10)+"px")
-          })
-          .on("mouseout", function(){
-            tooltip.transition()
-              .duration(200)
-              .style("opacity", 0);
-          })
-          .transition()
-          .duration(600)
-          .attr("width", function(d) {return x(d.avg)})
-          .attr("fill", color);
-        
-        bars.transition()
-          .duration(600)
-          .attr("y", function(d) {return y(d[yattr])})
-          .attr("width", function(d) {return x(d.avg)})
-          .attr("fill", color);
+  // Load CSV data
+  d3.csv("social_media_engagement1.csv", function(data) {
+    data.forEach(d => {
+      d.likes = +d.likes;
+      d.comments = +d.comments;
+      d.shares = +d.shares;
+    });
 
-        bars.exit().remove();
+    // Function for updating all charts with new platform selection
+    function updateCharts(platform){
+      var filteredData = data.filter(function(d) {return d.platform == platform});
+      barChart("chart1", filteredData, "likes", "post_type", "", post_types, platform);
+      barChart("chart2", filteredData, "comments", "post_type", "", post_types, platform);
+      barChart("chart3", filteredData, "shares", "post_type", "", post_types, platform);
+      barChart("chart4", filteredData, "likes", "sentiment_score", " post", post_tones, platform);
+      barChart("chart5", filteredData, "comments", "sentiment_score", " post", post_tones, platform);
+      barChart("chart6", filteredData, "shares", "sentiment_score", " post", post_tones, platform);
+      barChart("chart7", filteredData, "likes", "post_day", " post", post_days, platform);
+      barChart("chart8", filteredData, "comments", "post_day", " post", post_days, platform);
+      barChart("chart9", filteredData, "shares", "post_day", " post", post_days, platform);
+      scatter("chart10", filteredData, "post_time", "likes", " post", platform);
+      scatter("chart11", filteredData, "post_time", "comments", " post", platform);
+      scatter("chart12", filteredData, "post_time", "shares", " post", platform);
+    }
+
+    // Function for updating a row of charts with post type selection
+    function typeFilterUpdate(charts, attr, type, attr_list){
+      var platform = d3.select("#platformSelection").node().value;
+      var filteredData = data.filter(function(d) {return d.platform == platform && d.post_type == type});
+      if (attr_list != null) {
+        barChart(charts[0], filteredData, "likes", attr, " "+type, attr_list, platform);
+        barChart(charts[1], filteredData, "comments", attr, " "+type, attr_list, platform);
+        barChart(charts[2], filteredData, "shares", attr, " "+type, attr_list, platform);
+      } else {
+        scatter(charts[0], filteredData, attr, "likes", " "+type, platform);
+        scatter(charts[1], filteredData, attr, "comments", " "+type, platform);
+        scatter(charts[2], filteredData, attr, "shares", " "+type, platform);
       }
+    }
 
-      // Function for creating a scatterplot
-      function scatter(chartId, data, xattr, yattr, yattr2, platform){
-        var chart = d3.select("#"+chartId);
-        var color = platformColor(platform);
-        var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
-        var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
-        var height = chart.node().getBoundingClientRect().width*5/6 - (t_margin+b_margin);
-        chart.attr("height", height + (t_margin+b_margin));
-
-        var parseHour = d3.timeParse("%m/%d/%Y %H:%M");
-        data.forEach(d => {
-          d.time = new Date(2000,0,1,parseHour(d[xattr]).getHours(),parseHour(d[xattr]).getMinutes()); 
-        });
-
-        var g = chart.select("g");
-        if (g.empty()){
-          g = chart.append("g")
-            .attr("transform", "translate("+l_margin+","+t_margin+")");
-        }           
-
-        var x = d3.scaleTime()
-          .domain([new Date(2000,0,1,0),new Date(2000,0,1,23)])
-          .range([0,width]);
-
-        var y = d3.scaleLinear()
-          .domain([0,d3.max(data, d => d[yattr])])
-          .range([height,0]);
-
-        var yAxis = g.select(".yaxis");
-        if (yAxis.empty()) {
-          yAxis = g.append("g").attr("class", "yaxis");
-        }
-        yAxis.transition()
-          .duration(600)
-          .call(d3.axisLeft(y));
-
-        var xAxis = g.select(".xaxis");
-        if (xAxis.empty()) {
-          xAxis = g.append("g")
-            .attr("class", "xaxis")
-            .attr("transform", "translate(0," + height + ")");
-        }
-        xAxis.transition()
-          .duration(600)
-          .call(d3.axisBottom(x)
-            .ticks(d3.timeHour.every(3))
-            .tickFormat(d3.timeFormat("%H:%M")));
-        xAxis.selectAll("text")
-          .attr("transform", "rotate(-45)")
-          .style("text-anchor", "end")
-          .attr("dx", "-0.8em")
-          .attr("dy", "0.15em");
-
-        var circles = g.selectAll("circle")
-          .data(data, d => d.time + "-" + d[yattr])
-
-        circles.enter()
-          .append("circle")
-          .attr("cx", function(d) {return x(d.time);})
-          .attr("cy", function(d) {return y(d[yattr]);})
-          .attr("r", 0)
-          .attr("fill", color)
-          .on("mouseover", function(d){
-            tooltip.transition()
-              .duration(200)
-              .style("opacity",1);
-            tooltip.html(`<strong>${platform} ${yattr2}</strong><br>` +
-                          `Time: <strong>${d3.timeFormat("%H:%M")(d.time)}</strong><br>` +
-                          `Number of ${yattr}: <strong>${d[yattr]}</strong>`);
-          })
-          .on("mousemove", function(event){
-            tooltip.style("left",(d3.event.pageX + 10)+"px")
-              .style("top",(d3.event.pageY + 10)+"px")
-          })
-          .on("mouseout", function(){
-            tooltip.transition()
-              .duration(200)
-              .style("opacity", 0);
-          })
-          .transition()
-          .duration(600)
-          .attr("r", 5);
-
-        circles.transition()
-          .duration(600)
-          .attr("cx", d => x(d.time))
-          .attr("cy", d => y(d[yattr]))
-          .attr("fill", color)
-          .attr("r", 5);
-
-        circles.exit()
-          .transition()
-          .duration(300)
-          .attr("r", 0)
-          .remove();
+    // Function for populating values of a dropdown list
+    function populateDropdown (id, options, allowAll){
+      var dropdown = d3.select(id);
+      data = options;
+      if (allowAll){
+        data = ["All", ...options];
       }
-      
-      // Load CSV data
-      d3.csv("social_media_engagement1.csv", function(data) {
-        data.forEach(d => {
-          d.likes = +d.likes;
-          d.comments = +d.comments;
-          d.shares = +d.shares;
-        });
+      dropdown.selectAll("option")
+        .data(data)
+        .enter()
+        .append("option")
+        .text(function(d) {return d;})
+        .attr("value", function(d) {return d;});
+      return dropdown;
+    }
 
-        // Function for updating all charts with new platform selection
-        function updateCharts(platform){
-          var filteredData = data.filter(function(d) {return d.platform == platform});
-          barChart("chart1", filteredData, "likes", "post_type", "", post_types, platform);
-          barChart("chart2", filteredData, "comments", "post_type", "", post_types, platform);
-          barChart("chart3", filteredData, "shares", "post_type", "", post_types, platform);
-          barChart("chart4", filteredData, "likes", "sentiment_score", " post", post_tones, platform);
-          barChart("chart5", filteredData, "comments", "sentiment_score", " post", post_tones, platform);
-          barChart("chart6", filteredData, "shares", "sentiment_score", " post", post_tones, platform);
-          barChart("chart7", filteredData, "likes", "post_day", " post", post_days, platform);
-          barChart("chart8", filteredData, "comments", "post_day", " post", post_days, platform);
-          barChart("chart9", filteredData, "shares", "post_day", " post", post_days, platform);
-          scatter("chart10", filteredData, "post_time", "likes", " post", platform);
-          scatter("chart11", filteredData, "post_time", "comments", " post", platform);
-          scatter("chart12", filteredData, "post_time", "shares", " post", platform);
-        }
+    // Platform selection dropdown
+    var select_platform = populateDropdown("#platformSelection", platforms, false);
 
-        // Function for updating a row of charts with post type selection
-        function typeFilterUpdate(charts, attr, type, attr_list){
-          var platform = d3.select("#platformSelection").node().value;
-          var filteredData = data.filter(function(d) {return d.platform == platform && d.post_type == type});
-          if (attr_list != null) {
-            barChart(charts[0], filteredData, "likes", attr, " "+type, attr_list, platform);
-            barChart(charts[1], filteredData, "comments", attr, " "+type, attr_list, platform);
-            barChart(charts[2], filteredData, "shares", attr, " "+type, attr_list, platform);
-          } else {
-            scatter(charts[0], filteredData, attr, "likes", " "+type, platform);
-            scatter(charts[1], filteredData, attr, "comments", " "+type, platform);
-            scatter(charts[2], filteredData, attr, "shares", " "+type, platform);
-          }
-        }
+    // Type selection dropdowns
+    var select_type = populateDropdown("#typeSelection", post_types, true);
+    var select_type2 = populateDropdown("#typeSelection2", post_types, true);
+    var select_type3 = populateDropdown("#typeSelection3", post_types, true);
 
-        // Function for populating values of a dropdown list
-        function populateDropdown (id, options, allowAll){
-          var dropdown = d3.select(id);
-          data = options;
-          if (allowAll){
-            data = ["All", ...options];
-          }
-          dropdown.selectAll("option")
-            .data(data)
-            .enter()
-            .append("option")
-            .text(function(d) {return d;})
-            .attr("value", function(d) {return d;});
-          return dropdown;
-        }
+    // Day selection dropdown
+    var select_day = populateDropdown("#daySelection", post_days, true);
 
-        // Platform selection dropdown
-        var select_platform = populateDropdown("#platformSelection", platforms, false);
+    // Update all charts with platform selection (initial selection: Facebook)
+    updateCharts("Facebook");
+    select_platform.on("change", function(){
+      updateCharts(this.value);
+      d3.select("#typeSelection").property("value", "All");
+      d3.select("#typeSelection2").property("value", "All");
+      d3.select("#typeSelection3").property("value", "All");
+    });
 
-        // Type selection dropdowns
-        var select_type = populateDropdown("#typeSelection", post_types, true);
-        var select_type2 = populateDropdown("#typeSelection2", post_types, true);
-        var select_type3 = populateDropdown("#typeSelection3", post_types, true);
+    // Update specified row with type selection (initial selection: All)
+    select_type.on("change", function(){
+      if (this.value != "All"){
+        typeFilterUpdate(["chart4","chart5","chart6"], "sentiment_score", this.value, post_tones);
+      } else {
+        updateCharts(d3.select("#platformSelection").node().value);
+      }
+    });
+    select_type2.on("change", function(){
+      if (this.value != "All"){
+        typeFilterUpdate(["chart7","chart8","chart9"], "post_day", this.value, post_days);
+      } else {
+        updateCharts(d3.select("#platformSelection").node().value);
+      }
+    });
+    select_type3.on("change", function(){
+      if (this.value != "All"){
+        typeFilterUpdate(["chart10","chart11","chart12"], "post_time", this.value, null);
+      } else {
+        updateCharts(d3.select("#platformSelection").node().value);
+      }
+    });
+    
+  });
 
-        // Day selection dropdown
-        var select_day = populateDropdown("#daySelection", post_days, true);
+  
+  
+</script>
 
-        // Update all charts with platform selection (initial selection: Facebook)
-        updateCharts("Facebook");
-        select_platform.on("change", function(){
-          updateCharts(this.value);
-          d3.select("#typeSelection").property("value", "All");
-          d3.select("#typeSelection2").property("value", "All");
-          d3.select("#typeSelection3").property("value", "All");
-        });
-
-        // Update specified row with type selection (initial selection: All)
-        select_type.on("change", function(){
-          if (this.value != "All"){
-            typeFilterUpdate(["chart4","chart5","chart6"], "sentiment_score", this.value, post_tones);
-          } else {
-            updateCharts(d3.select("#platformSelection").node().value);
-          }
-        });
-        select_type2.on("change", function(){
-          if (this.value != "All"){
-            typeFilterUpdate(["chart7","chart8","chart9"], "post_day", this.value, post_days);
-          } else {
-            updateCharts(d3.select("#platformSelection").node().value);
-          }
-        });
-        select_type3.on("change", function(){
-          if (this.value != "All"){
-            typeFilterUpdate(["chart10","chart11","chart12"], "post_time", this.value, null);
-          } else {
-            updateCharts(d3.select("#platformSelection").node().value);
-          }
-        });
-        
-      });
-
-      
-      
-    </script>
-
-  </body>
-</html>
