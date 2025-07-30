@@ -292,7 +292,7 @@ layout: default
               .style("opacity",1);
             tooltip.html(`<strong>${platform} ${yattr2}</strong><br>` +
                           `Time: <strong>${d3.timeFormat("%H:%M")(d.time)}</strong><br>` +
-                          `Average ${xattr}: <strong>${d[yattr]}</strong>`);
+                          `Number of ${yattr}: <strong>${d[xattr]}</strong>`);
           })
           .on("mousemove", function(event){
             tooltip.style("left",(d3.event.pageX + 10)+"px")
@@ -341,9 +341,9 @@ layout: default
           barChart("chart7", filteredData, "likes", "post_day", " post", post_days, platform);
           barChart("chart8", filteredData, "comments", "post_day", " post", post_days, platform);
           barChart("chart9", filteredData, "shares", "post_day", " post", post_days, platform);
-          scatter("chart10", filteredData, "post_time", "likes", " post time", platform);
-          scatter("chart11", filteredData, "post_time", "comments", " post time", platform);
-          scatter("chart12", filteredData, "post_time", "shares", " post time", platform);
+          scatter("chart10", filteredData, "post_time", "likes", " post", platform);
+          scatter("chart11", filteredData, "post_time", "comments", " post", platform);
+          scatter("chart12", filteredData, "post_time", "shares", " post", platform);
         }
 
         // Function for updating second row of bar charts with post type filter
