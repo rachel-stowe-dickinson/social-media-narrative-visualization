@@ -383,6 +383,10 @@ layout: default
             barChart(charts[0], filteredData, "likes", attr, " "+type, attr_list, platform);
             barChart(charts[1], filteredData, "comments", attr, " "+type, attr_list, platform);
             barChart(charts[2], filteredData, "shares", attr, " "+type, attr_list, platform);
+          } else {
+            scatter(charts[0], filteredData, attr, "likes", " "+type, platform);
+            scatter(charts[1], filteredData, attr, "comments", " "+type, platform);
+            scatter(charts[2], filteredData, attr, "shares", " "+type, platform);
           }
         }
 
