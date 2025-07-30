@@ -391,6 +391,15 @@ layout: default
       }
     }
 
+    // Function for updating a final row with post day selection
+    function dayFilterUpdate(day){
+      var platform = d3.select("#platformSelection").node().value;
+      var filteredData = data.filter(function(d) {return d.platform == platform && d.post_day == day});
+      scatter("chart10", filteredData, "post_time", "likes", desc, platform);
+      scatter("chart11", filteredData, "post_time", "comments", desc, platform);
+      scatter("chart12", filteredData, "post_time", "shares", desc, platform);
+    }
+
     // Function for populating values of a dropdown list
     function populateDropdown (id, options, allowAll){
       var dropdown = d3.select(id);
@@ -436,6 +445,11 @@ layout: default
     });
     select_type3.on("change", function(){
       typeFilterUpdate(["chart10","chart11","chart12"], "post_time", this.value, null);
+    });
+
+    // Update final row with day selection (initial selection: All)
+    select_day.on("change", function(){
+      typeFilterUpdate(this.value);
     });
     
   });
