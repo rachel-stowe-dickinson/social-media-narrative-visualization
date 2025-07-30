@@ -249,7 +249,7 @@ layout: default
   }
 
   // Function for creating a scatterplot
-  function scatter(chartId, data, xattr, yattr, yattr2, platform){
+  function scatter(chartId, data, xattr, yattr, platform){
     var chart = d3.select("#"+chartId);
     var color = platformColor(platform);
     var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
@@ -366,9 +366,9 @@ layout: default
       barChart("chart7", filteredData, "likes", "post_day", " post", post_days, platform);
       barChart("chart8", filteredData, "comments", "post_day", " post", post_days, platform);
       barChart("chart9", filteredData, "shares", "post_day", " post", post_days, platform);
-      scatter("chart10", filteredData, "post_time", "likes", " post", platform);
-      scatter("chart11", filteredData, "post_time", "comments", " post", platform);
-      scatter("chart12", filteredData, "post_time", "shares", " post", platform);
+      scatter("chart10", filteredData, "post_time", "likes", platform);
+      scatter("chart11", filteredData, "post_time", "comments", platform);
+      scatter("chart12", filteredData, "post_time", "shares", platform);
     }
 
     // Function for updating a row of charts with post type selection
@@ -381,30 +381,24 @@ layout: default
       } else {
         desc = " post";
       }
-      if (attr_list != null) {
-        barChart(charts[0], filteredData, "likes", attr, desc, attr_list, platform);
-        barChart(charts[1], filteredData, "comments", attr, desc, attr_list, platform);
-        barChart(charts[2], filteredData, "shares", attr, desc, attr_list, platform);
-      } else {
-        scatter(charts[0], filteredData, attr, "likes", desc, platform);
-        scatter(charts[1], filteredData, attr, "comments", desc, platform);
-        scatter(charts[2], filteredData, attr, "shares", desc, platform);
-      }
+      barChart(charts[0], filteredData, "likes", attr, desc, attr_list, platform);
+      barChart(charts[1], filteredData, "comments", attr, desc, attr_list, platform);
+      barChart(charts[2], filteredData, "shares", attr, desc, attr_list, platform);
     }
 
-    // Function for updating a final row with post day selection
-    function dayFilterUpdate(day){
+    // Function for updating the final row with post day and type selection
+    function typeDayFilterUpdate(type, day){
       var platform = d3.select("#platformSelection").node().value;
       var filteredData = data.filter(function(d) {return d.platform == platform});
-      var desc = day + " post";
-      if (day != "All"){
-        filteredData = data.filter(function(d) {return d.platform == platform && d.post_day == day});
-      } else {
-        desc = " post";
+      if (type != "All"){
+        filteredData = filteredData.filter(function(d) {return d.post_type == type});
       }
-      scatter("chart10", filteredData, "post_time", "likes", desc, platform);
-      scatter("chart11", filteredData, "post_time", "comments", desc, platform);
-      scatter("chart12", filteredData, "post_time", "shares", desc, platform);
+      if (day != "All"){
+        filteredData = filteredData.filter(function(d) {return d.post_day == day});
+      }
+      scatter("chart10", filteredData, "post_time", "likes", platform);
+      scatter("chart11", filteredData, "post_time", "comments", platform);
+      scatter("chart12", filteredData, "post_time", "shares", platform);
     }
 
     // Function for populating values of a dropdown list
@@ -450,13 +444,13 @@ layout: default
     select_type2.on("change", function(){
       typeFilterUpdate(["chart7","chart8","chart9"], "post_day", this.value, post_days);
     });
-    select_type3.on("change", function(){
-      typeFilterUpdate(["chart10","chart11","chart12"], "post_time", this.value, null);
-    });
 
-    // Update final row with day selection (initial selection: All)
+    // Update final row with type AND/OR day selection (initial selection: All)
+    select_type3.on("change", function(){
+      typeDayFilterUpdate(this.value, d3.select("#daySelection").node().value);
+    });
     select_day.on("change", function(){
-      dayFilterUpdate(this.value);
+      typeDayFilterUpdate(d3.select("#typeSelection3").node().value, this.value);
     });
 
   });
