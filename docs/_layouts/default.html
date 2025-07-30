@@ -13,17 +13,21 @@
     <![endif]-->
     {% include head-custom.html %}
     <style>
-        body {
-          margin: 0;
-          display: flex;
-          min-height: 100vh;
-          font-family: sans-serif;
+        .wrapper {
+            width: auto !important;
+            max-width: none;
         }
-        .main-content {
-          flex: 1;
-          padding: 20px;
-          box-sizing: border-box;
-          overflow-x: auto;
+        section {
+            margin-left: 230px;
+            width: auto !important;
+            max-width: none;
+            padding-right: 50px;
+            box-sizing: border-box;
+        }
+        @media screen and (max-width: 960px) {
+            section {
+            margin-left: 0;
+            }
         }
       </style>
   </head>
@@ -51,14 +55,15 @@
                 </ul>
             {% endif %}
         </header>
+
+        <section>
+            {{ content }}
+        </section>
+
         <footer>
             <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
         </footer>
     </div>
-
-    <main class="main-content">
-        {{ content }}
-    </main>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
   </body>
 </html>

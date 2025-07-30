@@ -53,14 +53,6 @@ layout: default
         border: 1px solid #ccc;
         background-color: white;
       }
-      body {
-        display:flex;
-      }
-      #content {
-        flex: 1;
-        padding: 10px;
-        box-sizing: border-box;
-      }
       #tooltip {
         opacity: 0; 
         padding: 5px; 
@@ -72,72 +64,70 @@ layout: default
         font-size: 12px;
       }
     </style>
-    <div id="content">
-      <h1>Social Media Narrative Visualization</h1>
-      <h4>Select a Platform:</h4>
-      <select id="platformSelection"></select>
-      <h2>Average Engagement by Post Type</h2>
-      <div class="sceneheader">
-        <div><h4>Average Like Count</h4></div>
-        <div><h4>Average Comment Count</h4></div>
-        <div><h4>Average Share Count</h4></div>
-      </div>
-      <div class="scene">
-        <svg id="chart1" width="100%"></svg>
-        <svg id="chart2" width="100%"></svg>
-        <svg id="chart3" width="100%"></svg>
-      </div>
-      <h2>Average Engagement by Tone</h2>
-      <div class="selectbox">
-        <h5>Select a Post Type:</h5>
-        <select id="typeSelection"></select>
-      </div>
-      <div class="sceneheader">
-        <div><h4>Average Like Count</h4></div>
-        <div><h4>Average Comment Count</h4></div>
-        <div><h4>Average Share Count</h4></div>
-      </div>
-      <div class="scene">
-        <svg id="chart4" width="100%"></svg>
-        <svg id="chart5" width="100%"></svg>
-        <svg id="chart6" width="100%"></svg>
-      </div>
-      <h2>Average Engagement by Post Day</h2>
-      <div class="selectbox">
-        <h5>Select a Post Type:</h5>
-        <select id="typeSelection2"></select>
-      </div>
-      <div class="sceneheader">
-        <div><h4>Average Like Count</h4></div>
-        <div><h4>Average Comment Count</h4></div>
-        <div><h4>Average Share Count</h4></div>
-      </div>
-      <div class="scene">
-        <svg id="chart7" width="100%"></svg>
-        <svg id="chart8" width="100%"></svg>
-        <svg id="chart9" width="100%"></svg>
-      </div>
-      <h2>Engagement by Post Time</h2>
-      <div class="selectbox">
-        <h5>Select a Post Type:</h5>
-        <select id="typeSelection3"></select>
-      </div>
-      <div class="selectbox">
-        <h5>Select a Post Day:</h5>
-        <select id="daySelection"></select>
-      </div>
-      <div class="sceneheader">
-        <div><h4>Like Count</h4></div>
-        <div><h4>Comment Count</h4></div>
-        <div><h4>Share Count</h4></div>
-      </div>
-      <div class="scene">
-        <svg id="chart10" width="100%"></svg>
-        <svg id="chart11" width="100%"></svg>
-        <svg id="chart12" width="100%"></svg>
-      </div>
-      <div id="tooltip"></div>
+    <h1>Social Media Narrative Visualization</h1>
+    <h4>Select a Platform:</h4>
+    <select id="platformSelection"></select>
+    <h2>Average Engagement by Post Type</h2>
+    <div class="sceneheader">
+      <div><h4>Average Like Count</h4></div>
+      <div><h4>Average Comment Count</h4></div>
+      <div><h4>Average Share Count</h4></div>
     </div>
+    <div class="scene">
+      <svg id="chart1" width="100%"></svg>
+      <svg id="chart2" width="100%"></svg>
+      <svg id="chart3" width="100%"></svg>
+    </div>
+    <h2>Average Engagement by Tone</h2>
+    <div class="selectbox">
+      <h5>Select a Post Type:</h5>
+      <select id="typeSelection"></select>
+    </div>
+    <div class="sceneheader">
+      <div><h4>Average Like Count</h4></div>
+      <div><h4>Average Comment Count</h4></div>
+      <div><h4>Average Share Count</h4></div>
+    </div>
+    <div class="scene">
+      <svg id="chart4" width="100%"></svg>
+      <svg id="chart5" width="100%"></svg>
+      <svg id="chart6" width="100%"></svg>
+    </div>
+    <h2>Average Engagement by Post Day</h2>
+    <div class="selectbox">
+      <h5>Select a Post Type:</h5>
+      <select id="typeSelection2"></select>
+    </div>
+    <div class="sceneheader">
+      <div><h4>Average Like Count</h4></div>
+      <div><h4>Average Comment Count</h4></div>
+      <div><h4>Average Share Count</h4></div>
+    </div>
+    <div class="scene">
+      <svg id="chart7" width="100%"></svg>
+      <svg id="chart8" width="100%"></svg>
+      <svg id="chart9" width="100%"></svg>
+    </div>
+    <h2>Engagement by Post Time</h2>
+    <div class="selectbox">
+      <h5>Select a Post Type:</h5>
+      <select id="typeSelection3"></select>
+    </div>
+    <div class="selectbox">
+      <h5>Select a Post Day:</h5>
+      <select id="daySelection"></select>
+    </div>
+    <div class="sceneheader">
+      <div><h4>Like Count</h4></div>
+      <div><h4>Comment Count</h4></div>
+      <div><h4>Share Count</h4></div>
+    </div>
+    <div class="scene">
+      <svg id="chart10" width="100%"></svg>
+      <svg id="chart11" width="100%"></svg>
+      <svg id="chart12" width="100%"></svg>
+    </div>
+    <div id="tooltip"></div>
     <script>
       // Define tooltip
       const tooltip = d3.select("#tooltip");
