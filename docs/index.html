@@ -233,9 +233,9 @@ layout: default
         var height = chart.node().getBoundingClientRect().width*5/6 - (t_margin+b_margin);
         chart.attr("height", height + (t_margin+b_margin));
 
-        var parseHour = d3.timeParse("%H:%M");
+        var parseHour = d3.timeParse("%m/%d/%Y %H:%M");
         data.forEach(d => {
-          d.time = parseHour(d[xattr]); 
+          d.time = new Date(2000,0,1,parseHour(d[xattr]).getHours(),parseHour(d[xattr]).getMinutes()); 
         });
 
         var g = chart.select("g");
