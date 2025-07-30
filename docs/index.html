@@ -26,6 +26,12 @@ layout: default
         flex: 1;
         max-width: 33%;
       }
+      .selectbox {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+      }
       h4 {
         text-align: center;
       }
@@ -64,8 +70,10 @@ layout: default
       <svg id="chart3" width="100%"></svg>
     </div>
     <h2>Average Engagement by Tone</h2>
-    <h5>Select a Post Type:</h5>
-    <select id="typeSelection"></select>
+    <div class="selectbox">
+      <h5>Select a Post Type:</h5>
+      <select id="typeSelection"></select>
+    </div>
     <div class="sceneheader">
       <div><h4>Average Like Count</h4></div>
       <div><h4>Average Comment Count</h4></div>
@@ -78,8 +86,10 @@ layout: default
     </div>
     <h2>Average Engagement by Post Day</h2>
     <h5>Select a Post Type:</h5>
-    <select id="typeSelection2"></select>
-    <div class="sceneheader">
+    <div class="selectbox">
+      <h5>Select a Post Type:</h5>
+      <select id="typeSelection2"></select>
+    </div>
       <div><h4>Average Like Count</h4></div>
       <div><h4>Average Comment Count</h4></div>
       <div><h4>Average Share Count</h4></div>
@@ -91,9 +101,9 @@ layout: default
     </div>
     <h2>Engagement by Post Time</h2>
     <div class="sceneheader">
-      <div><h4>Average Like Count</h4></div>
-      <div><h4>Average Comment Count</h4></div>
-      <div><h4>Average Share Count</h4></div>
+      <div><h4>Like Count</h4></div>
+      <div><h4>Comment Count</h4></div>
+      <div><h4>Share Count</h4></div>
     </div>
     <div class="scene">
       <svg id="chart10" width="100%"></svg>
