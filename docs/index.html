@@ -388,13 +388,14 @@ layout: default
 
         // Function for populating values of type selection dropdown
         function typeSelectVals (id){
-          var select_type = d3.select(id);
-          select_type.selectAll("option")
+          var dropdown = d3.select(id);
+          dropdown.selectAll("option")
             .data(["All", ...post_types])
             .enter()
             .append("option")
             .text(function(d) {return d;})
             .attr("value", function(d) {return d;});
+          return dropdown;
         }
 
         // Platform selection dropdown
@@ -407,9 +408,9 @@ layout: default
           .attr("value", function(d) {return d;});
 
         // Type selection dropdowns
-        typeSelectVals("#typeSelection");
-        typeSelectVals("#typeSelection2");
-        typeSelectVals("#typeSelection3");
+        select_type = typeSelectVals("#typeSelection");
+        select_type2 = typeSelectVals("#typeSelection2");
+        select_type3 = typeSelectVals("#typeSelection3");
 
         // Update all charts with platform selection (initial selection: Facebook)
         updateCharts("Facebook");
