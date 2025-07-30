@@ -385,7 +385,7 @@ layout: default
         // Type selection dropdown
         var select_type = d3.select("#typeSelection");
         select_type.selectAll("option")
-          .data(["", ...post_types])
+          .data(["all", ...post_types])
           .enter()
           .append("option")
           .text(function(d) {return d;})
@@ -393,7 +393,7 @@ layout: default
 
         // Update second row with type selection (initial selection: All)
         select_type.on("change", function(){
-          if (this.value != ""){
+          if (this.value != "all"){
             typeFilterUpdate(this.value);
           } else {
             updateCharts(d3.select("#platformSelection").node().value);
@@ -403,7 +403,7 @@ layout: default
         // Type selection dropdown 2
         var select_type2 = d3.select("#typeSelection2");
         select_type2.selectAll("option")
-          .data(["", ...post_types])
+          .data(["all", ...post_types])
           .enter()
           .append("option")
           .text(function(d) {return d;})
@@ -411,7 +411,7 @@ layout: default
 
         // Update third row with type selection (initial selection: All)
         select_type2.on("change", function(){
-          if (this.value != ""){
+          if (this.value != "all"){
             typeFilterUpdate2(this.value);
           } else {
             updateCharts(d3.select("#platformSelection").node().value);
