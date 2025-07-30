@@ -448,7 +448,7 @@ layout: default
         // Update third row with type selection (initial selection: All)
         select_type2.on("change", function(){
           if (this.value != "all"){
-            typeFilterUpdate2(["chart7","chart8","chart9"], "post_day", this.value, post_days);
+            typeFilterUpdate(["chart7","chart8","chart9"], "post_day", this.value, post_days);
           } else {
             updateCharts(d3.select("#platformSelection").node().value);
           }
