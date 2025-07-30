@@ -292,7 +292,7 @@ layout: default
               .style("opacity",1);
             tooltip.html(`<strong>${platform} ${yattr2}</strong><br>` +
                           `Time: <strong>${d3.timeFormat("%H:%M")(d.time)}</strong><br>` +
-                          `Number of ${yattr}: <strong>${d[xattr]}</strong>`);
+                          `Number of ${yattr}: <strong>${d[yattr]}</strong>`);
           })
           .on("mousemove", function(event){
             tooltip.style("left",(d3.event.pageX + 10)+"px")
