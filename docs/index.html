@@ -375,13 +375,22 @@ layout: default
           scatter("chart12", filteredData, "post_time", "shares", " post", platform);
         }
 
-        // Function for updating second row of bar charts with post type filter
-        function typeFilterUpdate(type){
+        // Function for updating row of bar charts with post type filter
+        function typeFilterUpdate(charts, attr, type, attr_list){
           var platform = d3.select("#platformSelection").node().value;
           var filteredData = data.filter(function(d) {return d.platform == platform && d.post_type == type});
-          barChart("chart4", filteredData, "likes", "sentiment_score", " "+type, post_tones, platform);
-          barChart("chart5", filteredData, "comments", "sentiment_score", " "+type, post_tones, platform);
-          barChart("chart6", filteredData, "shares", "sentiment_score", " "+type, post_tones, platform);
+          barChart(charts[0], filteredData, "likes", attr, " "+type, attr_list, platform);
+          barChart(charts[1], filteredData, "comments", attr, " "+type, attr_list, platform);
+          barChart(charts[2], filteredData, "shares", attr, " "+type, attr_list, platform);
+        }
+
+        // Function for updating third row of bar charts with post type filter
+        function typeFilterUpdate2(type){
+          var platform = d3.select("#platformSelection").node().value;
+          var filteredData = data.filter(function(d) {return d.platform == platform && d.post_type == type});
+          barChart("chart7", filteredData, "likes", "post_day", " "+type, post_days, platform);
+          barChart("chart8", filteredData, "comments", "post_day", " "+type, post_days, platform);
+          barChart("chart9", filteredData, "shares", "post_day", " "+type, post_days, platform);
         }
 
         // Function for updating third row of bar charts with post type filter
@@ -421,7 +430,7 @@ layout: default
         // Update second row with type selection (initial selection: All)
         select_type.on("change", function(){
           if (this.value != "all"){
-            typeFilterUpdate(this.value);
+            typeFilterUpdate(["chart4","chart5","chart6"], "sentiment_value", this.value, post_tones);
           } else {
             updateCharts(d3.select("#platformSelection").node().value);
           }
@@ -440,6 +449,24 @@ layout: default
         select_type2.on("change", function(){
           if (this.value != "all"){
             typeFilterUpdate2(this.value);
+          } else {
+            updateCharts(d3.select("#platformSelection").node().value);
+          }
+        });
+
+        // Type selection dropdown 3
+        var select_type3 = d3.select("#typeSelection3");
+        select_type3.selectAll("option")
+          .data(["all", ...post_types])
+          .enter()
+          .append("option")
+          .text(function(d) {return d;})
+          .attr("value", function(d) {return d;});
+
+        // Update fourth row with type selection (initial selection: All)
+        select_type3.on("change", function(){
+          if (this.value != "all"){
+            typeFilterUpdate3(this.value);
           } else {
             updateCharts(d3.select("#platformSelection").node().value);
           }
