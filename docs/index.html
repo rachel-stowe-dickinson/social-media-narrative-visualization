@@ -307,18 +307,18 @@ layout: default
           .duration(600)
           .attr("r", 5);
 
-          circles.transition()
-            .duration(600)
-            .attr("cx", d => x(d._time))
-            .attr("cy", d => y(d[yattr]))
-            .attr("fill", color)
-            .attr("r", 5);
+        circles.transition()
+          .duration(600)
+          .attr("cx", d => x(d.time))
+          .attr("cy", d => y(d[yattr]))
+          .attr("fill", color)
+          .attr("r", 5);
 
-          circles.exit()
-            .transition()
-            .duration(300)
-            .attr("r", 0)
-            .remove();
+        circles.exit()
+          .transition()
+          .duration(300)
+          .attr("r", 0)
+          .remove();
       }
       
       // Load CSV data
