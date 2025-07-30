@@ -314,7 +314,7 @@ layout: default
         tooltip.transition()
           .duration(200)
           .style("opacity",1);
-        tooltip.html(`<strong>${platform} ${yattr2}</strong><br>` +
+        tooltip.html(`<strong>${platform}: ${yattr2}</strong><br>` +
                       `Time: <strong>${d3.timeFormat("%H:%M")(d.time)}</strong><br>` +
                       `Number of ${yattr}: <strong>${d[yattr]}</strong>`);
       })
@@ -394,7 +394,13 @@ layout: default
     // Function for updating a final row with post day selection
     function dayFilterUpdate(day){
       var platform = d3.select("#platformSelection").node().value;
-      var filteredData = data.filter(function(d) {return d.platform == platform && d.post_day == day});
+      var filteredData = data;
+      var desc = day + " post";
+      if (type != "All"){
+        filteredData = data.filter(function(d) {return d.platform == platform && d.post_day == day});
+      } else {
+        desc = " post";
+      }
       scatter("chart10", filteredData, "post_time", "likes", desc, platform);
       scatter("chart11", filteredData, "post_time", "comments", desc, platform);
       scatter("chart12", filteredData, "post_time", "shares", desc, platform);
@@ -451,7 +457,7 @@ layout: default
     select_day.on("change", function(){
       typeFilterUpdate(this.value);
     });
-    
+
   });
 </script>
 
