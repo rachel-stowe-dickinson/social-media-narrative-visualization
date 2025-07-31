@@ -280,7 +280,7 @@ layout: default
   function scatter(chartId, data, xattr, yattr, platform){
     var chart = d3.select("#"+chartId);
     var color = platformColor(platform);
-    var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
+    var l_margin = 70, r_margin = 20, t_margin = 20, b_margin = 50;
     var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
     var height = chart.node().getBoundingClientRect().width*5/6 - (t_margin+b_margin);
     chart.attr("height", height + (t_margin+b_margin));
@@ -328,6 +328,25 @@ layout: default
       .style("text-anchor", "end")
       .attr("dx", "-0.8em")
       .attr("dy", "0.15em");
+
+    xAxis.append("text")
+      .attr("class", "axis-label")
+      .attr("x", width / 2)              
+      .attr("y", 40)                     
+      .style("text-anchor", "middle")
+      .style("fill", "#000")
+      .style("font-weight", "bold")
+      .text(yattr);              
+
+    yAxis.append("text")
+      .attr("class", "axis-label")
+      .attr("transform", "rotate(-90)")  
+      .attr("x", -height / 2)           
+      .attr("y", -55)                    
+      .style("text-anchor", "middle")
+      .style("fill", "#000")
+      .style("font-weight", "bold")
+      .text(xattr.split("_").join(" ")); 
 
     var symbols = g.selectAll("path.symbol")
       .data(data, d => d.time + "-" + d[yattr])
