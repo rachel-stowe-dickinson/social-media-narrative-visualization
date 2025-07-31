@@ -314,7 +314,8 @@ layout: default
     }   
     
     const maxVal = d3.max(data, d => d[yattr]);
-    const maxDatum = data.find(d => d[yattr] === maxVal);
+    const maxHour = data.find(d => d[yattr] === maxVal);
+    const maxDatum = new Date(2000,0,1,parseHour(maxHour).getHours(),parseHour(maxHour).getMinutes());
     d3.select(plotId).text("Best " + xattr.split("_").join(" ") + ": " + maxDatum);
 
     var y = d3.scaleTime()
