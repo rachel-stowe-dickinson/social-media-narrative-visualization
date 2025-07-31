@@ -103,7 +103,7 @@ layout: default
   <svg id="chart8" width="100%"></svg>
   <svg id="chart9" width="100%"></svg>
 </div>
-<h2>Engagement by Post Time</h2>
+<h2>Individual Engagement by Post Time</h2>
 <div class="selectbox">
   <h5>Select a Post Type:</h5>
   <select id="typeSelection3"></select>
@@ -141,7 +141,7 @@ layout: default
   function barChart(chartId, data, xattr, yattr, yattr2, ydomain, platform){
     var chart = d3.select("#"+chartId);
     var color = platformColor(platform);
-    var l_margin = 55, r_margin = 20, t_margin = 20, b_margin = 40;
+    var l_margin = 70, r_margin = 20, t_margin = 20, b_margin = 50;
     var width = chart.node().getBoundingClientRect().width - (l_margin+r_margin);
     var height = chart.node().getBoundingClientRect().width*5/6 - (t_margin+b_margin);
     chart.attr("height", height + (t_margin+b_margin));
@@ -211,6 +211,24 @@ layout: default
       .style("text-anchor", "end")
       .attr("dx", "-0.8em")
       .attr("dy", "0.15em");
+
+    xAxis.append("text")
+      .attr("class", "axis-label")
+      .attr("x", width / 2)              
+      .attr("y", 35)                     
+      .style("text-anchor", "middle")
+      .style("fill", "#000")
+      .text(xattr);              
+
+    // Y‐axis label
+    yAxis.append("text")
+      .attr("class", "axis-label")
+      .attr("transform", "rotate(-90)")  
+      .attr("x", -height / 2)           
+      .attr("y", -40)                    
+      .style("text-anchor", "middle")
+      .style("fill", "#000")
+      .text(yattr);  
 
     var bars = g.selectAll("rect")
       .data(avgData, d => d[yattr]);
