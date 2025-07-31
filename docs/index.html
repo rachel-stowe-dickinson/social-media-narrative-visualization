@@ -313,7 +313,7 @@ layout: default
         .attr("transform", "translate("+l_margin+","+t_margin+")");
     }   
     
-    const maxVal = d3.max(data, d => d[xattr]);
+    const maxVal = d3.max(data, d => d[yattr]);
     const maxDatum = new Date(2000,0,1,parseHour(maxVal).getHours(),parseHour(maxVal).getMinutes()); 
     d3.select(plotId).text("Best " + xattr.split("_").join(" ") + ": " + maxDatum);
 
