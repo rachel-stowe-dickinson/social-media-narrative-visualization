@@ -117,6 +117,11 @@ layout: default
   <select id="daySelection"></select>
 </div>
 <div class="sceneheader">
+  <div><h4 id="scatter1"></h4></div>
+  <div><h4 id="scatter2"></h4></div>
+  <div><h4 id="scatter3"></h4></div>
+</div>
+<div class="sceneheader">
   <div><h4>Like Count</h4></div>
   <div><h4>Comment Count</h4></div>
   <div><h4>Share Count</h4></div>
@@ -125,11 +130,6 @@ layout: default
   <svg id="chart10" width="100%"></svg>
   <svg id="chart11" width="100%"></svg>
   <svg id="chart12" width="100%"></svg>
-</div>
-<div class="sceneheader">
-  <div><h4 id="scatter1"></h4></div>
-  <div><h4 id="scatter2"></h4></div>
-  <div><h4 id="scatter3"></h4></div>
 </div>
 <div id="tooltip"></div>
 <script>
@@ -314,8 +314,8 @@ layout: default
     }   
     
     const maxVal = d3.max(data, d => d[xattr]);
-    const maxDatum = data.find(d => d[xattr] === maxVal);
-    d3.select(plotId).text("Best " + xattr.split("_").join(" ") + ": " + parseHour(maxVal));
+    const maxDatum = new Date(2000,0,1,parseHour(maxVal).getHours(),parseHour(maxVal).getMinutes()); 
+    d3.select(plotId).text("Best " + xattr.split("_").join(" ") + ": " + maxDatum);
 
     var y = d3.scaleTime()
       .domain([new Date(2000,0,1,0),new Date(2000,0,1,23,59)])
@@ -384,8 +384,8 @@ layout: default
       .attr("opacity", 0);
 
     symbols_enter.merge(symbols)
-      .attr("stroke",      d => d.avg === maxVal ? "black" : "none")
-      .attr("stroke-width",d => d.avg === maxVal ? 2  : 0) 
+      .attr("stroke",      d => d.avg === maxDatum ? "black" : "none")
+      .attr("stroke-width",d => d.avg === maxDatum ? 2  : 0) 
       .attr("fill",d => d.avg === maxVal ? "lime" : color) 
       .attr("d", d3.symbol().size(40)
                        .type(d => postTypeSymbol(d.post_type) || d3.symbolCircle))
