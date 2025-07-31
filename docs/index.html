@@ -314,7 +314,7 @@ layout: default
     }   
     
     const maxVal = d3.max(data, d => d[yattr]);
-    const maxDatum = new Date(2000,0,1,parseHour(maxVal).getHours(),parseHour(maxVal).getMinutes()); 
+    const maxDatum = data.find(d => d[yattr] === maxVal);
     d3.select(plotId).text("Best " + xattr.split("_").join(" ") + ": " + maxDatum);
 
     var y = d3.scaleTime()
@@ -384,8 +384,8 @@ layout: default
       .attr("opacity", 0);
 
     symbols_enter.merge(symbols)
-      .attr("stroke",      d => d[xattr] === maxDatum ? "black" : "none")
-      .attr("stroke-width",d => d[xattr] === maxDatum ? 2  : 0) 
+      .attr("stroke",      d => d.time === maxDatum ? "black" : "none")
+      .attr("stroke-width",d => d.time === maxDatum ? 2  : 0) 
       .attr("fill",d => d[xattr] === maxVal ? "lime" : color) 
       .attr("d", d3.symbol().size(40)
                        .type(d => postTypeSymbol(d.post_type) || d3.symbolCircle))
