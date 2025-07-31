@@ -220,6 +220,9 @@ layout: default
       .attr("fill", color)
       .merge(bars)
       .on("mouseover", function(d){
+        d3.select(this)
+          .transition().duration(100)
+          .attr("fill", "gray");
         tooltip.transition()
           .duration(200)
           .style("opacity",1);
@@ -230,6 +233,9 @@ layout: default
           .style("top",(d3.event.pageY + 10)+"px")
       })
       .on("mouseout", function(){
+        d3.select(this)
+          .transition().duration(100)
+          .attr("fill", color);
         tooltip.transition()
           .duration(200)
           .style("opacity", 0);
@@ -311,6 +317,9 @@ layout: default
       .attr("r", 0)
       .attr("fill", color)
       .on("mouseover", function(d){
+        d3.select(this)
+          .transition().duration(100)
+          .attr("fill", "gray");
         tooltip.transition()
           .duration(200)
           .style("opacity",1);
@@ -324,6 +333,9 @@ layout: default
           .style("top",(d3.event.pageY + 10)+"px")
       })
       .on("mouseout", function(){
+        d3.select(this)
+          .transition().duration(100)
+          .attr("fill", color);
         tooltip.transition()
           .duration(200)
           .style("opacity", 0);
@@ -334,8 +346,8 @@ layout: default
 
     circles.transition()
       .duration(600)
-      .attr("cx", d => x(d.time))
-      .attr("cy", d => y(d[yattr]))
+      .attr("cx", d => x(d[yattr]))
+      .attr("cy", d => y(d.time))
       .attr("fill", color)
       .attr("r", 3);
 
