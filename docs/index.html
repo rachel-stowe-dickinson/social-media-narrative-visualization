@@ -318,7 +318,7 @@ layout: default
       .attr("class", "symbol")
       .attr("fill", color)
       .attr("d", d3.symbol().size(64)
-                       .type(d => postTypeSymbol(d.post_type)))
+                       .type(d => postTypeSymbol(d.post_type) || d3.symbolCircle))
       .attr("transform", d =>
         `translate(${x(d.time)},${y(d[yattr])})`
       )
@@ -326,7 +326,7 @@ layout: default
 
     symbols_enter.merge(symbols)
       .attr("d", d3.symbol().size(64)
-                       .type(d => postTypeSymbol(d.post_type)))
+                       .type(d => postTypeSymbol(d.post_type) || d3.symbolCircle))
       .attr("transform", d => 
         `translate(${x(d.time)},${y(d[yattr])})`)
       .transition()
