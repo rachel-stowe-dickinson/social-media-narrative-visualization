@@ -218,6 +218,7 @@ layout: default
       .attr("y", 40)                     
       .style("text-anchor", "middle")
       .style("fill", "#000")
+      .style("font-weight", "bold")
       .text(xattr);              
 
     yAxis.append("text")
@@ -227,6 +228,7 @@ layout: default
       .attr("y", -55)                    
       .style("text-anchor", "middle")
       .style("fill", "#000")
+      .style("font-weight", "bold")
       .text(yattr.split("_").join(" "));  
 
     var bars = g.selectAll("rect")
