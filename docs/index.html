@@ -47,6 +47,10 @@ layout: default
     border: 1px solid #ccc;
     background-color: white;
   }
+  #scatter1, #scatter2, #scatter3 {
+    border: 2px solid black;
+    padding: 5px;
+  }
   #tooltip {
     opacity: 0; 
     padding: 5px; 
@@ -116,6 +120,11 @@ layout: default
   <div><h4>Like Count</h4></div>
   <div><h4>Comment Count</h4></div>
   <div><h4>Share Count</h4></div>
+</div>
+<div class="sceneheader">
+  <div><h4 id="scatter1"></h4></div>
+  <div><h4 id="scatter2"></h4></div>
+  <div><h4 id="scatter3"></h4></div>
 </div>
 <div class="scene">
   <svg id="chart10" width="100%"></svg>
@@ -285,7 +294,7 @@ layout: default
   }
 
   // Function for creating a scatterplot
-  function scatter(chartId, data, xattr, yattr, platform){
+  function scatter(chartId, data, xattr, yattr, platform, plotId){
     var chart = d3.select("#"+chartId);
     var color = platformColor(platform);
     var l_margin = 70, r_margin = 20, t_margin = 20, b_margin = 50;
@@ -306,25 +315,7 @@ layout: default
     
     const maxVal = d3.max(data, d => d[xattr]);
     const maxDatum = data.find(d => d[xattr] === maxVal);
-    const info = g.selectAll("g.info")
-      .data([maxDatum]);
-    const infoEnter = info.enter()
-      .append("g")
-        .attr("class", "info");
-    infoEnter.append("rect")
-        .attr("x", width - 160) 
-        .attr("y", 0)
-        .attr("width", 150)
-        .attr("height", 30)
-        .attr("fill", "white")
-        .attr("stroke", "black");
-    infoEnter.append("text")
-        .attr("x", width - 155)   
-        .attr("y", 20)
-        .attr("fill", "black")
-        .style("font-size", "12px")
-        .text(`Best ${yattr.split("_").join(" ")}: ${maxDatum[yattr]}`);
-    info.exit().remove();
+    d3.select(plotId).text("Best " + xattr + ": " + maxVal);
 
     var y = d3.scaleTime()
       .domain([new Date(2000,0,1,0),new Date(2000,0,1,23,59)])
@@ -462,9 +453,9 @@ layout: default
       barChart("chart7", filteredData, "likes", "post_day", " Post", post_days, platform);
       barChart("chart8", filteredData, "comments", "post_day", " Post", post_days, platform);
       barChart("chart9", filteredData, "shares", "post_day", " Post", post_days, platform);
-      scatter("chart10", filteredData, "post_time", "likes", platform);
-      scatter("chart11", filteredData, "post_time", "comments", platform);
-      scatter("chart12", filteredData, "post_time", "shares", platform);
+      scatter("chart10", filteredData, "post_time", "likes", platform, "#scatter1");
+      scatter("chart11", filteredData, "post_time", "comments", platform, "#scatter2");
+      scatter("chart12", filteredData, "post_time", "shares", platform, "#scatter3");
     }
 
     // Function for updating a row of charts with post type selection
@@ -492,9 +483,9 @@ layout: default
       if (day != "All"){
         filteredData = filteredData.filter(function(d) {return d.post_day == day});
       }
-      scatter("chart10", filteredData, "post_time", "likes", platform);
-      scatter("chart11", filteredData, "post_time", "comments", platform);
-      scatter("chart12", filteredData, "post_time", "shares", platform);
+      scatter("chart10", filteredData, "post_time", "likes", platform, "#scatter1");
+      scatter("chart11", filteredData, "post_time", "comments", platform, "#scatter2");
+      scatter("chart12", filteredData, "post_time", "shares", platform, "#scatter3");
     }
 
     // Function for populating values of a dropdown list
