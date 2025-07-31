@@ -320,7 +320,7 @@ layout: default
       .attr("d", d3.symbol().size(64)
                        .type(d => postTypeSymbol(d.post_type) || d3.symbolCircle))
       .attr("transform", d =>
-        `translate(${x(d.time)},${y(d[yattr])})`
+        `translate(${x(d[yattr])},${y(d.time)})`
       )
       .attr("opacity", 0);
 
@@ -328,7 +328,7 @@ layout: default
       .attr("d", d3.symbol().size(64)
                        .type(d => postTypeSymbol(d.post_type) || d3.symbolCircle))
       .attr("transform", d => 
-        `translate(${x(d.time)},${y(d[yattr])})`)
+        `translate(${x(d[yattr])},${y(d.time)})`)
       .transition()
         .duration(600)
         .attr("opacity", 1);
