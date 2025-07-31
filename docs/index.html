@@ -280,6 +280,8 @@ layout: default
       .attr("fill", color);
 
     bars.exit().remove();
+
+    g.selectAll("text.max-label").raise();
   }
 
   // Function for creating a scatterplot
