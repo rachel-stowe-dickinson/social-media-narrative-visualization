@@ -347,7 +347,10 @@ layout: default
   }
   
   // Load CSV data
-  d3.csv("social_media_engagement_data.csv", function(data) {
+  d3.csv("social_media_engagement_data.csv", function(rawData) {
+    // Use only a sample of CSV file (LARGE-100k rows)
+    const SAMPLE_SIZE = 1000;
+    const data = d3.shuffle(rawData).slice(0, SAMPLE_SIZE);
     data.forEach(d => {
       d.likes = +d.likes;
       d.comments = +d.comments;
