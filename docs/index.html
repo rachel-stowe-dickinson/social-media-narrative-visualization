@@ -189,7 +189,7 @@ layout: default
         .attr("text-anchor", "middle")
         .attr("fill", "#fff")
         .style("pointer-events","none")                   
-        .text(d => `Max avg ${xattr}: ${d[yattr]}`);
+        .text(d => `Best ${yattr.split("_").join(" ")}: ${d[yattr]}`);
     maxLabel.exit().remove();
 
     var yAxis = g.select(".yaxis");
