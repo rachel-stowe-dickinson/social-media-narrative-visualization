@@ -50,6 +50,7 @@ layout: default
   #scatter1, #scatter2, #scatter3 {
     border: 1px solid black;
     padding: 5px;
+    fill: #eee;
   }
   #tooltip {
     opacity: 0; 
@@ -315,7 +316,9 @@ layout: default
     
     const maxVal = d3.max(data, d => d[yattr]);
     const maxDatum = data.find(d => d[yattr] === maxVal);
-    d3.select(plotId).text("Best " + xattr.split("_").join(" ") + ": " + d3.timeFormat("%H:%M")(maxDatum.time));
+    d3.select(plotId)
+      .text("Best " + xattr.split("_").join(" ") + ": " + d3.timeFormat("%H:%M")(maxDatum.time))
+      .attr("background-color", color);
 
     var y = d3.scaleTime()
       .domain([new Date(2000,0,1,0),new Date(2000,0,1,23,59)])
@@ -425,6 +428,10 @@ layout: default
           .duration(200)
           .style("opacity", 0);
       });
+
+      g.selectAll("path.symbol")
+      .filter(d => d === maxDatum)
+      .raise();
   }
   
   // Load CSV data
