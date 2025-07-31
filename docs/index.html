@@ -313,16 +313,22 @@ layout: default
     var symbols = g.selectAll("path.symbol")
       .data(data, d => d.time + "-" + d[yattr])
 
-    symbols.enter()
+    var symbols_enter = symbols.enter()
       .append("path")
       .attr("class", "symbol")
       .attr("fill", color)
-      .merge(symbols)
       .attr("d", d3.symbol().size(64)
                        .type(d => postTypeSymbol(d.post_type)))
       .attr("transform", d =>
         `translate(${x(d.time)},${y(d[yattr])})`
       )
+      .attr("opacity", 0);
+
+    symbols_enter.merge(symbols)
+      .attr("d", d3.symbol().size(64)
+                       .type(d => postTypeSymbol(d.post_type)))
+      .attr("transform", d => 
+        `translate(${x(d.time)},${y(d[yattr])})`)
       .transition()
         .duration(600)
         .attr("opacity", 1);
@@ -379,12 +385,12 @@ layout: default
       barChart("chart1", filteredData, "likes", "post_type", "", post_types, platform);
       barChart("chart2", filteredData, "comments", "post_type", "", post_types, platform);
       barChart("chart3", filteredData, "shares", "post_type", "", post_types, platform);
-      barChart("chart4", filteredData, "likes", "sentiment_score", " post", post_tones, platform);
-      barChart("chart5", filteredData, "comments", "sentiment_score", " post", post_tones, platform);
-      barChart("chart6", filteredData, "shares", "sentiment_score", " post", post_tones, platform);
-      barChart("chart7", filteredData, "likes", "post_day", " post", post_days, platform);
-      barChart("chart8", filteredData, "comments", "post_day", " post", post_days, platform);
-      barChart("chart9", filteredData, "shares", "post_day", " post", post_days, platform);
+      barChart("chart4", filteredData, "likes", "sentiment_score", " Post", post_tones, platform);
+      barChart("chart5", filteredData, "comments", "sentiment_score", " Post", post_tones, platform);
+      barChart("chart6", filteredData, "shares", "sentiment_score", " Post", post_tones, platform);
+      barChart("chart7", filteredData, "likes", "post_day", " Post", post_days, platform);
+      barChart("chart8", filteredData, "comments", "post_day", " Post", post_days, platform);
+      barChart("chart9", filteredData, "shares", "post_day", " Post", post_days, platform);
       scatter("chart10", filteredData, "post_time", "likes", platform);
       scatter("chart11", filteredData, "post_time", "comments", platform);
       scatter("chart12", filteredData, "post_time", "shares", platform);
