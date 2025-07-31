@@ -215,7 +215,7 @@ layout: default
     xAxis.append("text")
       .attr("class", "axis-label")
       .attr("x", width / 2)              
-      .attr("y", 45)                     
+      .attr("y", 40)                     
       .style("text-anchor", "middle")
       .style("fill", "#000")
       .text(xattr);              
@@ -224,10 +224,10 @@ layout: default
       .attr("class", "axis-label")
       .attr("transform", "rotate(-90)")  
       .attr("x", -height / 2)           
-      .attr("y", -60)                    
+      .attr("y", -55)                    
       .style("text-anchor", "middle")
       .style("fill", "#000")
-      .text(yattr);  
+      .text(yattr.split("_").join(" "));  
 
     var bars = g.selectAll("rect")
       .data(avgData, d => d[yattr]);
