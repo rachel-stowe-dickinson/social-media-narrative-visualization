@@ -166,6 +166,23 @@ layout: default
       avg: avgMap[val] != null ? avgMap[val] : 0
     }));
 
+    const maxAvg = d3.max(avgData, d => d.avg);
+    const maxDatum = avgData.find(d => d.avg === maxAvg);
+    const maxLabel = g.selectAll("text.max-label")
+      .data([maxDatum]);
+    maxLabel.enter()
+      .append("text")
+        .attr("class","max-label")
+      .merge(maxLabel)
+        .attr("x", d => x(d.avg) / 2)                     
+        .attr("y", d => y(d[yattr]) + y.bandwidth() / 2)  
+        .attr("dy", "0.35em")                             
+        .attr("text-anchor", "middle")
+        .attr("fill", "#fff")
+        .style("pointer-events","none")                   
+        .text(d => `Max avg ${xattr}: ${d[yattr]}`);
+    maxLabel.exit().remove();
+
     var y = d3.scaleBand()
       .domain(ydomain)
       .range([0,height])
@@ -179,23 +196,10 @@ layout: default
     if (yAxis.empty()) {
       yAxis = g.append("g").attr("class", "yaxis");
     }
-    //if (yattr != "post_day") {
-      yAxis.transition()
-        .duration(600)
-        .call(d3.axisLeft(y));
-    // } else {
-    //   const day_abbr = {"Monday":"Mon", 
-    //                     "Tuesday":"Tue", 
-    //                     "Wednesday":"Wed", 
-    //                     "Thursday":"Thu", 
-    //                     "Friday":"Fri", 
-    //                     "Saturday":"Sat",
-    //                     "Sunday":"Sun"};
-    //   yAxis.transition()
-    //     .duration(600)
-    //     .call(d3.axisLeft(y)
-    //     .tickFormat(d => day_abbr[d] || d));
-    // }
+
+    yAxis.transition()
+      .duration(600)
+      .call(d3.axisLeft(y));
 
     var xAxis = g.select(".xaxis");
     if (xAxis.empty()) {
@@ -241,6 +245,8 @@ layout: default
       .attr("width",0)
       .attr("fill", color)
       .merge(bars)
+      .attr("stroke",      d => d.avg === maxAvg ? "black" : "none")
+      .attr("stroke-width",d => d.avg === maxAvg ? 2         : 0) 
       .on("mouseover", function(d){
         d3.select(this)
           .transition().duration(100)
