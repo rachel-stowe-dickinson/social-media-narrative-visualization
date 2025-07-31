@@ -272,7 +272,7 @@ layout: default
       .domain([new Date(2000,0,1,0),new Date(2000,0,1,23)])
       .range([0,height]);
 
-    var y = d3.scaleLinear()
+    var x = d3.scaleLinear()
       .domain([0,d3.max(data, d => d[yattr])])
       .range([0,width]);
 
