@@ -317,7 +317,7 @@ layout: default
       .append("path")
       .attr("class", "symbol")
       .attr("fill", color)
-      .attr("d", d3.symbol().size(64)
+      .attr("d", d3.symbol().size(40)
                        .type(d => postTypeSymbol(d.post_type) || d3.symbolCircle))
       .attr("transform", d =>
         `translate(${x(d[yattr])},${y(d.time)})`
@@ -325,7 +325,7 @@ layout: default
       .attr("opacity", 0);
 
     symbols_enter.merge(symbols)
-      .attr("d", d3.symbol().size(64)
+      .attr("d", d3.symbol().size(40)
                        .type(d => postTypeSymbol(d.post_type) || d3.symbolCircle))
       .attr("transform", d => 
         `translate(${x(d[yattr])},${y(d.time)})`)
