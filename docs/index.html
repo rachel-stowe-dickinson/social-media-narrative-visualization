@@ -349,13 +349,15 @@ layout: default
   // Load CSV data
   d3.csv("social_media_engagement_data.csv", function(rawData) {
     // Use only a sample of CSV file (LARGE-100k rows)
-    const SAMPLE_SIZE = 1000;
+    const SAMPLE_SIZE = 5000;
     const data = d3.shuffle(rawData).slice(0, SAMPLE_SIZE);
     data.forEach(d => {
       d.likes = +d.likes;
       d.comments = +d.comments;
       d.shares = +d.shares;
-      d.sentiment_score = (d.sentiment_score === null || typeof d.sentiment_score === 'undefined' ? "Mixed" : d.sentiment_score);
+      if (!d.sentiment_score || d.sentiment_score.trim() === "") {
+        d.sentiment_score = "Mixed";
+      }
     });
 
     // Function for updating all charts with new platform selection
