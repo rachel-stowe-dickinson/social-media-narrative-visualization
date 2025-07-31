@@ -179,23 +179,23 @@ layout: default
     if (yAxis.empty()) {
       yAxis = g.append("g").attr("class", "yaxis");
     }
-    if (yattr != "post_day") {
+    //if (yattr != "post_day") {
       yAxis.transition()
         .duration(600)
         .call(d3.axisLeft(y));
-    } else {
-      const day_abbr = {"Monday":"Mon", 
-                        "Tuesday":"Tue", 
-                        "Wednesday":"Wed", 
-                        "Thursday":"Thu", 
-                        "Friday":"Fri", 
-                        "Saturday":"Sat",
-                        "Sunday":"Sun"};
-      yAxis.transition()
-        .duration(600)
-        .call(d3.axisLeft(y)
-        .tickFormat(d => day_abbr[d] || d));
-    }
+    // } else {
+    //   const day_abbr = {"Monday":"Mon", 
+    //                     "Tuesday":"Tue", 
+    //                     "Wednesday":"Wed", 
+    //                     "Thursday":"Thu", 
+    //                     "Friday":"Fri", 
+    //                     "Saturday":"Sat",
+    //                     "Sunday":"Sun"};
+    //   yAxis.transition()
+    //     .duration(600)
+    //     .call(d3.axisLeft(y)
+    //     .tickFormat(d => day_abbr[d] || d));
+    // }
 
     var xAxis = g.select(".xaxis");
     if (xAxis.empty()) {
