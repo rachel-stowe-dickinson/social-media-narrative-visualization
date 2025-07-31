@@ -384,9 +384,9 @@ layout: default
       .attr("opacity", 0);
 
     symbols_enter.merge(symbols)
-      .attr("stroke",      d => d.avg === maxDatum ? "black" : "none")
-      .attr("stroke-width",d => d.avg === maxDatum ? 2  : 0) 
-      .attr("fill",d => d.avg === maxVal ? "lime" : color) 
+      .attr("stroke",      d => d[xattr] === maxDatum ? "black" : "none")
+      .attr("stroke-width",d => d[xattr] === maxDatum ? 2  : 0) 
+      .attr("fill",d => d[xattr] === maxVal ? "lime" : color) 
       .attr("d", d3.symbol().size(40)
                        .type(d => postTypeSymbol(d.post_type) || d3.symbolCircle))
       .transition()
