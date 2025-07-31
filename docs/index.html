@@ -375,10 +375,10 @@ layout: default
     symbols_enter.merge(symbols)
       .attr("d", d3.symbol().size(40)
                        .type(d => postTypeSymbol(d.post_type) || d3.symbolCircle))
-      .attr("transform", d => 
-        `translate(${x(d[yattr])},${y(d.time)})`)
       .transition()
         .duration(600)
+        .attr("transform", d => 
+        `translate(${x(d[yattr])},${y(d.time)})`)
         .attr("opacity", 1);
 
     symbols.exit()
