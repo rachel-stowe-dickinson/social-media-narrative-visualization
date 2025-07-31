@@ -197,8 +197,6 @@ layout: default
       yAxis = g.append("g").attr("class", "yaxis");
     }
 
-   
-
     yAxis.transition()
       .duration(600)
       .call(d3.axisLeft(y));
@@ -300,6 +298,28 @@ layout: default
       d.time = new Date(2000,0,1,parseHour(d[xattr]).getHours(),parseHour(d[xattr]).getMinutes()); 
     });
 
+    const maxVal = d3.max(data, d => d[xattr]);
+    const maxDatum = data.find(d => d[xattr] === maxVal);
+    const info = g.selectAll("g.info")
+      .data([maxDatum]);
+    const infoEnter = info.enter()
+      .append("g")
+        .attr("class", "info");
+    infoEnter.append("rect")
+        .attr("x", width - 160) 
+        .attr("y", 0)
+        .attr("width", 150)
+        .attr("height", 30)
+        .attr("fill", "white")
+        .attr("stroke", "black");
+    infoEnter.append("text")
+        .attr("x", width - 155)   
+        .attr("y", 20)
+        .attr("fill", "black")
+        .style("font-size", "12px")
+        .text(`Best ${yattr.split("_").join(" ")}: ${maxDatum[yattr]}`);
+    info.exit().remove();
+
     var g = chart.select("g");
     if (g.empty()){
       g = chart.append("g")
@@ -373,6 +393,8 @@ layout: default
       .attr("opacity", 0);
 
     symbols_enter.merge(symbols)
+      .attr("stroke",      d => d.avg === maxVal ? "black" : "none")
+      .attr("stroke-width",d => d.avg === maxVal ? 2         : 0) 
       .attr("d", d3.symbol().size(40)
                        .type(d => postTypeSymbol(d.post_type) || d3.symbolCircle))
       .transition()
