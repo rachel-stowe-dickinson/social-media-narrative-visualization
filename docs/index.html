@@ -166,6 +166,15 @@ layout: default
       avg: avgMap[val] != null ? avgMap[val] : 0
     }));
 
+    var y = d3.scaleBand()
+      .domain(ydomain)
+      .range([0,height])
+      .padding(0.2);
+
+    var x = d3.scaleLinear()
+      .domain([0,d3.max(avgData, d => d.avg)])
+      .range([0,width]);
+
     const maxAvg = d3.max(avgData, d => d.avg);
     const maxDatum = avgData.find(d => d.avg === maxAvg);
     const maxLabel = g.selectAll("text.max-label")
@@ -182,15 +191,6 @@ layout: default
         .style("pointer-events","none")                   
         .text(d => `Max avg ${xattr}: ${d[yattr]}`);
     maxLabel.exit().remove();
-
-    var y = d3.scaleBand()
-      .domain(ydomain)
-      .range([0,height])
-      .padding(0.2);
-
-    var x = d3.scaleLinear()
-      .domain([0,d3.max(avgData, d => d.avg)])
-      .range([0,width]);
 
     var yAxis = g.select(".yaxis");
     if (yAxis.empty()) {
