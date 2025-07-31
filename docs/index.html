@@ -268,13 +268,13 @@ layout: default
         .attr("transform", "translate("+l_margin+","+t_margin+")");
     }           
 
-    var x = d3.scaleTime()
+    var y = d3.scaleTime()
       .domain([new Date(2000,0,1,0),new Date(2000,0,1,23)])
-      .range([0,width]);
+      .range([0,height]);
 
     var y = d3.scaleLinear()
       .domain([0,d3.max(data, d => d[yattr])])
-      .range([height,0]);
+      .range([0,width]);
 
     var yAxis = g.select(".yaxis");
     if (yAxis.empty()) {
@@ -282,7 +282,9 @@ layout: default
     }
     yAxis.transition()
       .duration(600)
-      .call(d3.axisLeft(y));
+      .call(d3.axisLeft(y)
+        .ticks(d3.timeHour.every(3))
+        .tickFormat(d3.timeFormat("%H:%M")));
 
     var xAxis = g.select(".xaxis");
     if (xAxis.empty()) {
@@ -292,9 +294,7 @@ layout: default
     }
     xAxis.transition()
       .duration(600)
-      .call(d3.axisBottom(x)
-        .ticks(d3.timeHour.every(3))
-        .tickFormat(d3.timeFormat("%H:%M")));
+      .call(d3.axisBottom(x));
     xAxis.selectAll("text")
       .attr("transform", "rotate(-45)")
       .style("text-anchor", "end")
@@ -330,14 +330,14 @@ layout: default
       })
       .transition()
       .duration(600)
-      .attr("r", 5);
+      .attr("r", 3);
 
     circles.transition()
       .duration(600)
       .attr("cx", d => x(d.time))
       .attr("cy", d => y(d[yattr]))
       .attr("fill", color)
-      .attr("r", 5);
+      .attr("r", 3);
 
     circles.exit()
       .transition()
@@ -349,7 +349,7 @@ layout: default
   // Load CSV data
   d3.csv("social_media_engagement_data.csv", function(rawData) {
     // Use only a sample of CSV file (LARGE-100k rows)
-    const SAMPLE_SIZE = 10000;
+    const SAMPLE_SIZE = 20000;
     const data = d3.shuffle(rawData).slice(0, SAMPLE_SIZE);
     data.forEach(d => {
       d.likes = +d.likes;
