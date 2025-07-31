@@ -48,7 +48,7 @@ layout: default
     background-color: white;
   }
   #scatter1, #scatter2, #scatter3 {
-    border: 2px solid black;
+    border: 1px solid black;
     padding: 5px;
   }
   #tooltip {
@@ -121,15 +121,15 @@ layout: default
   <div><h4>Comment Count</h4></div>
   <div><h4>Share Count</h4></div>
 </div>
-<div class="sceneheader">
-  <div><h4 id="scatter1"></h4></div>
-  <div><h4 id="scatter2"></h4></div>
-  <div><h4 id="scatter3"></h4></div>
-</div>
 <div class="scene">
   <svg id="chart10" width="100%"></svg>
   <svg id="chart11" width="100%"></svg>
   <svg id="chart12" width="100%"></svg>
+</div>
+<div class="sceneheader">
+  <div><h4 id="scatter1"></h4></div>
+  <div><h4 id="scatter2"></h4></div>
+  <div><h4 id="scatter3"></h4></div>
 </div>
 <div id="tooltip"></div>
 <script>
@@ -315,7 +315,7 @@ layout: default
     
     const maxVal = d3.max(data, d => d[xattr]);
     const maxDatum = data.find(d => d[xattr] === maxVal);
-    d3.select(plotId).text("Best " + xattr + ": " + maxVal);
+    d3.select(plotId).text("Best " + xattr.split("_").join(" ") + ": " + parseHour(maxVal));
 
     var y = d3.scaleTime()
       .domain([new Date(2000,0,1,0),new Date(2000,0,1,23,59)])
