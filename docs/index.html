@@ -195,6 +195,15 @@ layout: default
     var yAxis = g.select(".yaxis");
     if (yAxis.empty()) {
       yAxis = g.append("g").attr("class", "yaxis");
+      yAxis.append("text")
+        .attr("class", "axis-label")
+        .attr("transform", "rotate(-90)")  
+        .attr("x", -height / 2)           
+        .attr("y", -55)                    
+        .style("text-anchor", "middle")
+        .style("fill", "#000")
+        .style("font-weight", "bold")
+        .text(yattr.split("_").join(" "));  
     }
 
     yAxis.transition()
@@ -206,6 +215,14 @@ layout: default
       xAxis = g.append("g")
         .attr("class", "xaxis")
         .attr("transform", "translate(0," + height + ")");
+      xAxis.append("text")
+        .attr("class", "axis-label")
+        .attr("x", width / 2)              
+        .attr("y", 40)                     
+        .style("text-anchor", "middle")
+        .style("fill", "#000")
+        .style("font-weight", "bold")
+        .text(xattr);  
     }
     xAxis.transition()
       .duration(600)
@@ -214,26 +231,7 @@ layout: default
       .attr("transform", "rotate(-45)")
       .style("text-anchor", "end")
       .attr("dx", "-0.8em")
-      .attr("dy", "0.15em");
-
-    xAxis.append("text")
-      .attr("class", "axis-label")
-      .attr("x", width / 2)              
-      .attr("y", 40)                     
-      .style("text-anchor", "middle")
-      .style("fill", "#000")
-      .style("font-weight", "bold")
-      .text(xattr);              
-
-    yAxis.append("text")
-      .attr("class", "axis-label")
-      .attr("transform", "rotate(-90)")  
-      .attr("x", -height / 2)           
-      .attr("y", -55)                    
-      .style("text-anchor", "middle")
-      .style("fill", "#000")
-      .style("font-weight", "bold")
-      .text(yattr.split("_").join(" "));  
+      .attr("dy", "0.15em");            
 
     var bars = g.selectAll("rect")
       .data(avgData, d => d[yattr]);
