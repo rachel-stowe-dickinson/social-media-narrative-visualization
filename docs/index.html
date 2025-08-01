@@ -423,7 +423,8 @@ layout: default
       .on("mouseout", function(){
         d3.select(this)
           .transition().duration(100)
-          .attr("fill", color);
+          .attr("fill", color)
+          .attr("fill",d => d.time === maxDatum.time ? "lime" : color);
         tooltip.transition()
           .duration(200)
           .style("opacity", 0);
